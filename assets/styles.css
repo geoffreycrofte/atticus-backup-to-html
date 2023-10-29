@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-areas: 'header content' 'footer content';
+    grid-template-columns: 320px 1fr;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    font-family: 'Poppins', "Helvetica Neue", "Arial", sans-serif;
+    line-height: 1.7;
+    color: rgb(50,50,50);
+}
+
+/**
+ * HEADER
+ */
+header {
+    grid-area: 'header';
+    padding: 16px;
+    background: #2b094a;
+    color: white;
+}
+
+header h1 {
+    font-size: 1.825rem;
+}
+
+header h1 span {
+    font-size: 0.875rem;
+}
+
+header h1 span:nth-child(1) {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.isbn {
+    font-size: 0.725rem;
+    text-align: center;
+}
+
+.cover {
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, .5);
+}
+
+/**
+ * Main content
+ */
+main {
+    grid-area: 'content';
+}
+
+.container {
+    padding: 32px;
+    max-width: 72ch;
+    width: 100%;
+    margin-inline: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.full-screen-image {
+    border-radius: 16px;
+}
+
+.chapter-title {
+    display: flex;
+    padding: 40px;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    min-height: 100vh;
+    background: #2b094a;
+    color: white;
+    font-size: clamp(32px, 4vw, 72px);
+    font-weight: 900;
+}
+
+main .container p {
+    margin: 2em 0;
+}
+
+main .container .h2 {
+    font-size: 1.75rem;
+}
+
+main .container .h3 {
+    font-size: 1.5rem;
+}
+
+main .container .h4 {
+    font-size: 1.25rem;
+}
+
+main .container blockquote {
+    padding: 2em;
+    margin-inline: 0;
+    font-size: 1.25rem;
+    background: rgb(245,240,245);
+}
+
+main .container blockquote cite {
+    display: block;
+    padding-top: 1em;
+}
+
+/**
+ * Footer
+ */
+
+footer {
+    grid-area: 'footer';
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media print {
+    .no-pdf {
+        display: none;
+    }
+    
+    section[data-title] {
+        min-height: 100vh;
+        break-before: page;
+    }
+    
+    section[data-title="Copyright"] {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-end;
+    }
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(fonts/poppins-regular.woff2) format('woff2'),
+        url(fonts/poppins-regular.woff) format('woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(fonts/poppins-italic.woff2) format('woff2'),
+        url(fonts/poppins-italic.woff) format('woff');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(fonts/poppins-bold.woff2) format('woff2'),
+        url(fonts/poppins-bold.woff) format('woff');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(fonts/poppins-black.woff2) format('woff2'),
+        url(fonts/poppins-black.woff) format('woff');
+    font-weight: 900;
+}
+
+/* Debug */
+.not-supported {
+    padding: 16px;
+    background:rgb(255, 250, 250);
+    border: 2px solid rgb(255, 200, 200);
+    color: red;
+    border-radius: 8px;
+}
