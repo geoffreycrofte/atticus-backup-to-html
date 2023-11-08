@@ -47,7 +47,7 @@
                 <?php echo ( $page['title'] === 'Title Page' ) ? '</h1>' : ''; ?>
 
             <?php } elseif ( ! empty( $page['children'] ) ) { 
-                echo get_children_markup( $page['children'] );
+                echo get_children_markup( $page['children'], $page['_id'] );
             } elseif ( $page['type'] === 'toc') {
             ?>
                 <h2 class="chapter-title"><?php echo $sommaire; ?></h2>
@@ -68,13 +68,11 @@
             <section id="<?php eesc_attr( $chapter['_id'] ); ?>" data-title="<?php eesc_attr( $chapter['title'] ); ?>">
                 <h2 class="chapter-title"><?php echo $chapter['title']; ?></h2>
             
-                <?php echo get_children_markup( $chapter['children'] ); ?>
+                <?php echo get_children_markup( $chapter['children'], $chapter['_id'] ); ?>
 
             </section>
         <?php
             }
-
-            war_dump( $chapters );
         ?>
         </div>
     </main>
