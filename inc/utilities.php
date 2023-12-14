@@ -141,6 +141,10 @@
                 case 'blockquote':
                     $output .= '<blockquote id="' . get_child_id ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . ( isset( $c['quotee'] ) ? '<cite>' . $c['quotee'] . '</cite>' : '') . '</blockquote>';
                     break;
+
+                case 'code_block':
+                    $output .= format_code_block( $c );
+                    break;
                 
                 default:
                     $output .= '<div class="not-supported"><strong>' . $c['type'] . '</strong> not supported yet <pre>' . var_export( $c, true ) . '</pre></div>';
@@ -240,6 +244,22 @@
         }
 
         return ' ' . trim( $html_attrs );
+    }
+
+    function format_code_block( $c ) {
+        $output = '';
+
+        if ( isset( $c['type'], $c['children'] ) &&  $c['type'] == 'code_block' && is_array( $c['children'] ) ) {
+            $output .= '<pre' . ( isset( $c['id'] ) ? ' id="code-' . $c['id'] : '' ) . '"><code>';
+
+            foreach ($c['children'] as $cp) {
+                $output .= str_replace( array('<', '>'), array('&lt;', '&gt;'), $cp['text'] );
+            }
+
+            $output .= '</code></pre>';
+        }
+
+        return $output;
     }
 
     /**

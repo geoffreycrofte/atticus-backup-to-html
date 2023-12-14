@@ -18,7 +18,9 @@ body {
  * HEADER
  */
 header {
-    grid-area: 'header';
+    position: sticky;
+    top: 0;
+    grid-area: header;
     padding: 16px;
     background: #2b094a;
     color: white;
@@ -54,14 +56,23 @@ header h1 span:nth-child(1) {
  * Main content
  */
 main {
-    grid-area: 'content';
+    grid-area: content;
 }
 
-.container {
-    padding: 32px;
-    max-width: 72ch;
+section[data-title] > p,
+section[data-title] > ul,
+section[data-title] > ol,
+section[data-title] > blockquote,
+section[data-title] > pre,
+section[data-title] > h3,
+section[data-title] > h4,
+section[data-title] > h5,
+section[data-title] > h6,
+section[data-title] > .text-center {
     width: 100%;
-    margin-inline: auto;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .text-center {
@@ -69,48 +80,83 @@ main {
 }
 
 .full-screen-image {
+    display: block;
     border-radius: 16px;
+    height: 95vh;
+    width: auto;
+    margin-inline: auto;
+}
+
+p:empty {
+    display: none;
 }
 
 .chapter-title {
     display: flex;
-    padding: 40px;
+    padding: 0 2em;
+    margin: 0;
     align-items: center;
     justify-content: flex-end;
     text-align: right;
     min-height: 100vh;
-    background: #2b094a;
+    background-color: #100F20;
+    background-image: url(../assets/img/losange.png), url(../assets/img/losange-2.png);
+    background-position: -50% -20%, right -50% bottom -20%;
+    background-repeat: no-repeat;
     color: white;
     font-size: clamp(32px, 4vw, 72px);
     font-weight: 900;
 }
 
-main .container p {
+.chapter-title.chapter-title.chapter-title + * {
+    margin-top: 10em;
+}
+
+section[data-title="Copyright"] {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main p {
     margin: 2em 0;
 }
 
-main .container .h2 {
+main .h2 {
     font-size: 1.75rem;
 }
 
-main .container .h3 {
+main .h3 {
     font-size: 1.5rem;
 }
 
-main .container .h4 {
+main .h4 {
     font-size: 1.25rem;
 }
 
-main .container blockquote {
+main blockquote {
     padding: 2em;
     margin-inline: 0;
     font-size: 1.25rem;
     background: rgb(245,240,245);
 }
 
-main .container blockquote cite {
+main blockquote cite {
     display: block;
     padding-top: 1em;
+}
+
+main pre code {
+    display: block;
+    padding: 1em;
+    font-size: 1.1em;
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    font-weight: 500;
+    background: rgb(16,15,32);
+    color: rgb(157,185,226);
+    border-left: 6px solid rgb(147,12,122);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%);
 }
 
 /**
@@ -118,7 +164,7 @@ main .container blockquote cite {
  */
 
 footer {
-    grid-area: 'footer';
+    grid-area: footer;
 }
 
 img {
@@ -130,15 +176,50 @@ img {
     .no-pdf {
         display: none;
     }
-    
-    section[data-title] {
-        min-height: 100vh;
-        break-before: page;
+
+    body {
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .full-screen-image {
+        border-radius: 0;
+        height: unset;
+        width: unset;
+    }
+
+    .container {
+        max-width: none;
+        width: 100%;
+        padding: 0;
     }
     
+    section[data-title] {
+        min-height: 100%;
+        break-before: page;
+    }
+
+    section[data-title] > p,
+    section[data-title] > ul,
+    section[data-title] > ol,
+    section[data-title] > blockquote,
+    section[data-title] > pre,
+    section[data-title] > h3,
+    section[data-title] > h4,
+    section[data-title] > h5,
+    section[data-title] > h6,
+    section[data-title] > .text-center {
+        max-width: 18.5cm;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     section[data-title="Copyright"] {
-        min-height: 100vh;
-        display: flex;
         align-items: flex-end;
     }
 }
