@@ -10,53 +10,57 @@
     function get_book_info( $name, $attrs = array() ) {
         global $data;
 
+        // 0 - Form FR
+        // 1 - Form EN
+        $book = $data[0];
+
         switch ($name) {
             case 'author':
-                return $data[0]['author'][0];
+                return $book['author'][0];
                 break;
 
             case 'cover':
-                return '<img src="' . $data[0]['coverImageUrl'] . '" class="cover"' . add_html_attrs( $attrs ) . '>';
+                return '<img src="' . $book['coverImageUrl'] . '" class="cover"' . add_html_attrs( $attrs ) . '>';
                 break;
 
             case 'publisherLogo':
-                return '<img src="' . $data[0]['publisherLogoURL'] . '" class="publisher-logo"' . add_html_attrs( $attrs ) . '>';
+                return '<img src="' . $book['publisherLogoURL'] . '" class="publisher-logo"' . add_html_attrs( $attrs ) . '>';
                 break;
 
             case 'publisherName':
-                return $data[0]['publisherName'];
+                return $book['publisherName'];
                 break;
 
             case 'publisherLink':
-                    return $data[0]['publisherLink'];
+                    return $book['publisherLink'];
                     break;
 
             case 'isbn':
-                return $data[0]['isbn'];
+                return $book['isbn'];
                 break;
             
             case 'eisbn':
-                return $data[0]['ebookISBN'];
+                return $book['ebookISBN'];
                 break;
 
             case 'lang':
-                return $data[0]['language'];
+                return $book['language'];
                 break;
 
             case 'title':
-                return $data[0]['title'];
+                return $book['title'];
                 break;
 
             case 'subtitle':
-                return $data[0]['subtitle'];
+                return $book['subtitle'];
                 break;
 
             case 'genericPages':
-                return $data[0]['frontMatter'];
+                return $book['frontMatter'];
                 break;
 
             case 'chapters':
-                return $data[0]['chapters'];
+                return $book['chapters'];
             
             default:
                 return 'Unknown $name';
@@ -183,7 +187,7 @@
         foreach( $chapterNamed as $chapter ) {
             $toc .= '<li class="toc-item"><a href="#' . $chapter['id'] . '">' . $chapter['title'] . '' . ( $subtitle ? ' <span class="subtitle">' . $chapter['subtitle'] . '</span>' : '') . '</a>';
 
-            if ( $subheading && isset( $chapter['headings'] ) && is_array( $chapter['headings'] ) ) {
+            if ( $subheading && isset( $chapter['headings'] ) && is_array( $chapter['headings'] ) && ! empty( $chapter['headings'] ) ) {
                 $toc .= '<ol class="toc-subheadings">';
 
                 foreach ( $chapter['headings'] as $heading) {

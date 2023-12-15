@@ -14,6 +14,30 @@ body {
     color: rgb(50,50,50);
 }
 
+a {
+    color: #A40162;
+}
+
+ol.toc {
+    padding: 24px 40px;
+    margin: 0 auto;
+}
+
+ol.toc li {
+    font-weight: bold;
+}
+
+ol.toc-subheadings {
+    margin-bottom: 1em;
+    font-weight: normal;
+    
+}
+
+ol.toc-subheadings li {
+    font-weight: normal;
+    
+}
+
 /**
  * HEADER
  */
@@ -59,16 +83,12 @@ main {
     grid-area: content;
 }
 
-section[data-title] > p,
-section[data-title] > ul,
+.chapter-content,
+section[data-title] > .text-center,
 section[data-title] > ol,
-section[data-title] > blockquote,
-section[data-title] > pre,
-section[data-title] > h3,
-section[data-title] > h4,
-section[data-title] > h5,
-section[data-title] > h6,
-section[data-title] > .text-center {
+section[data-title] > ul,
+section[data-title] > p,
+section[data-title] > h2 {
     width: 100%;
     max-width: 680px;
     margin-left: auto;
@@ -91,12 +111,12 @@ p:empty {
     display: none;
 }
 
-.chapter-title {
+.chapter-header {
     display: flex;
+    flex-wrap: wrap;
     padding: 0 2em;
     margin: 0;
-    align-items: center;
-    justify-content: flex-end;
+    align-content: center;
     text-align: right;
     min-height: 100vh;
     background-color: #100F20;
@@ -108,8 +128,22 @@ p:empty {
     font-weight: 900;
 }
 
-.chapter-title.chapter-title.chapter-title + * {
-    margin-top: 10em;
+.chapter-counter {
+    flex-basis: 100%;
+    margin-bottom: 0;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.chapter-title {
+    flex-basis: 100%;
+    margin-top: 0;
+    line-height: 1.4;
+}
+
+.chapter-content {
+    padding: 80px 0;
+    overflow: hidden;
 }
 
 section[data-title="Copyright"] {
@@ -159,12 +193,81 @@ main pre code {
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%);
 }
 
+p > code {
+    font-size: 1rem;
+    color: #306C98;
+}
+
+figure {
+    text-align: center;
+}
+
+figure figcaption {
+    padding: 1em;
+    font-size: .875rem;
+    background: #D8E2F1;
+    font-weight: 500;
+}
+
+figure figcaption:empty{
+    display: none;
+}
+
+/**
+ * Image sizes
+ */
+[data-size] {
+    margin-inline: auto;
+}
+
+[data-size="100"]{
+    max-width: 100%;
+}
+[data-size="80"] {
+    max-width: 80%;
+}
+[data-size="small"]{
+    max-width: 50%;
+}
+[data-size="79"]{
+    max-width: 79%;
+}
+[data-size="58"]{
+    max-width: 58%;
+}
+[data-size="81"]{
+    max-width: 81%;
+}
+[data-size="62"]{
+    max-width: 62%;
+}
+[data-size="59"]{
+    max-width: 59%;
+}
+[data-size="99"]{
+    max-width: 99%;
+}
+[data-size="98"]{
+    max-width: 98%;
+}
+[data-size="61"]{
+    max-width: 61%;
+}
+[data-size="60"]{
+    max-width: 60%;
+}
+[data-size="49"]{
+    max-width: 49%;
+}
+
 /**
  * Footer
  */
 
 footer {
     grid-area: footer;
+    padding: 40px 24px;
+    text-align: center;
 }
 
 img {
@@ -221,6 +324,28 @@ img {
 
     section[data-title="Copyright"] {
         align-items: flex-end;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    body {
+        display: block;
+    }
+
+    header  {
+        position: static;
+        text-align: center;
+    }
+
+    .full-screen-image {
+        position: absolute;
+        height: 1px;
+        width: 1px;
+        left: -9999em;
+    }
+
+    .chapter-content {
+        padding: 40px 24px;
     }
 }
 
