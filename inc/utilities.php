@@ -1,5 +1,6 @@
 <?php
     global $data;
+    global $chapter_links;
 
     function get_book_data() {
         $file = file_get_contents( 'data/atticus.json' ); 
@@ -71,9 +72,16 @@
     /**
      * Loop and switch case to get the content of a "Children array".
      */
-    function get_children_markup( $children, $chapt_id ) {
+    function get_children_markup( $children, $chapt_id) {
+        global $chapter_links;
+
         if ( ! is_array( $children ) ) return;
         $output = '';
+        
+        if ( ! isset( $chapter_links[ $chapt_id ] ) ) {
+            // Si non, initialiser comme un tableau vide
+            $chapter_links[ $chapt_id ] = array();
+        } 
 
         // Set the heading counters to generate unique ids combined with $chapt_id
         $h2 = isset( $h2 ) ? $h2 : 1;
@@ -102,11 +110,12 @@
                     break;
 
                 case 'a':
-                    $output .= '<a href="' . $c['url'] . '" id="' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
+                    $output .= isset( $_GET['print'] ) ? '<u>' .  $c['children'][0]['text'] . '</u> (' . get_printable_url( $c['url'] ) . ')' : '<a href="' . $c['url'] . '" id="' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
+                    $chapter_links[ $chapt_id ][] = array('id' => get_child_id( $c ), 'href' => $c['url'], 'text' => $c['children'][0]['text']);
                     break;
 
                 case 'image':
-                    $output .= '<figure data-size="' . $c['size'] . '"  data-flow="' . $c['flow'] . '"><img src="' . $c['url'] . '">' . ( isset( $c['caption'] ) ? '<figcaption>' . $c['caption'] . '</figcaption>' : '' ) . '</figure>';
+                    $output .= '<figure data-size="' . $c['size'] . '"  data-flow="' . $c['flow'] . '"><img src="' . maybe_base64url( $c['url'] ) . '">' . ( isset( $c['caption'] ) ? '<figcaption>' . $c['caption'] . '</figcaption>' : '' ) . '</figure>';
                     break;
 
                 case 'ul':
@@ -118,7 +127,7 @@
                     break;
 
                 case 'li':
-                    $output .= '<li>' . more_children( $c['children'], $chapt_id) . '</li>';
+                    $output .= '<li>' . more_children( $c['children'], $chapt_id ) . '</li>';
                     break;
 
                 case 'h2':
@@ -156,14 +165,14 @@
             }
         }
 
-        return $output;
+        return array($output, $chapter_links);
     }
 
     /**
      * Infinite loop of children :D
      */
     function more_children( $children, $chapt_id ) {
-        return isset( $children ) ? get_children_markup( $children, $chapt_id ) : '';
+        return isset( $children ) ? get_children_markup( $children, $chapt_id )[0] : '';
     }
 
     /**
@@ -235,6 +244,28 @@
         return $chapts;
     }
 
+    /**
+     * Get the chapter links based on chapterID
+     */
+    function get_chapter_links( $all_links, $chapter_id = null ) {
+        $output = '';
+        if ( ! is_array( $all_links ) ) return;
+        if ( ! isset( $all_links[ $chapter_id ] ) || ! is_array( $all_links[ $chapter_id ]  ) ) return;
+
+        foreach ($all_links[ $chapter_id ] as $link) {
+            war_dump($link);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Return a printable URL for actual print (without URL params)
+     */
+    function get_printable_url( $url ) {
+        $url = explode( '?utm_source' , $url );
+        return $url[0];
+    }
 
     /**
      * Loops on the attrs available in an array to make a printable HTML string.
@@ -278,6 +309,25 @@
      */
     function eesc_attr( $string ) {
         echo esc_attr( $string );
+    }
+
+    /**
+     * Get images in base64 if Print URL param is there.
+     * Fallbacks to normal URL if file_get_contents doesn't work.
+     */
+    function maybe_base64url( $url, $mime_type = null ) {
+
+        if ( ! isset( $_GET['print'] ) ) return $url;
+
+        $image = file_get_contents( $url );
+        $ext = pathinfo( parse_url( $url, PHP_URL_PATH), PATHINFO_EXTENSION );
+        $mime_type = $mime_type !== null ? $mime_type : 'image/' . $ext;
+
+        if ( $image !== false ) {
+            $url = 'data:' . $mime_type . ';base64,' . base64_encode( $image );
+        }
+
+        return $url;
     }
 
     /**
