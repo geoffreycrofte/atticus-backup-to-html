@@ -197,6 +197,7 @@ main blockquote cite {
 main pre code {
     display: block;
     padding: 1em;
+    white-space: pre-wrap;
     font-size: 1.1em;
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-weight: 500;
@@ -222,6 +223,14 @@ figure figcaption {
     font-size: .875rem;
     background: #D8E2F1;
     font-weight: 500;
+    /**/
+    position: relative;
+    left: 50%;
+    width: 14cm;
+    line-height: 1.4;
+    transform: translateX(-50%);
+    font-size: 0.775em;
+    font-weight: 600;
 }
 
 figure figcaption:empty{
@@ -361,6 +370,15 @@ img {
     section[data-title="Copyright"] {
         align-items: flex-end;
     }
+
+    main blockquote {
+        padding: 1.5em;
+        font-size: 1.125rem;
+    }
+
+    main li li p {
+        margin: 1em 0;
+    }
 }
 
 @media screen and (max-width: 1180px) {
@@ -479,9 +497,9 @@ img {
     }
 }
 
-.print h2 {
+/*.print h2 {
     string-set: title content(text);
-}
+}*/
 
 .print h3 {
     page-break-after: avoid; /* keep title with next paragraph */
@@ -554,11 +572,11 @@ img {
 }
 
 .print [data-size="100"]{
-    max-width: 80%;
+    max-width: 95%;
 }
 .print [data-size="99"]{
-    max-width: 80%;
+    max-width: 95%;
 }
 .print [data-size="98"]{
-    max-width: 80%;
+    max-width: 95%;
 }

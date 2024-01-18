@@ -267,7 +267,7 @@
 
         if ( isset( $_GET['print'] ) ) {
             $isInternal = preg_match( '#\#chapter#', $c['url'] );
-            $output .= $isInternal === false ? 
+            $output .= $isInternal === 0 ? 
                 '<u>' .  $c['children'][0]['text'] . '</u> (' . get_printable_url( $c['url'] ) . ')' :
                 '<span class="intlink">'.$c['children'][0]['text'] . '</span>';
         } else {
