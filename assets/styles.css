@@ -158,6 +158,11 @@ section[data-title="Copyright"] {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+}
+
+section[data-title="Copyright"] p {
+    margin: 1em 0;
 }
 
 main p {
@@ -229,9 +234,17 @@ figure figcaption:empty{
 [data-size] {
     margin-inline: auto;
 }
-
 [data-size="100"]{
     max-width: 100%;
+}
+[data-size="99"]{
+    max-width: 100%;
+}
+[data-size="98"]{
+    max-width: 100%;
+}
+[data-size="81"] {
+    max-width: 80%;
 }
 [data-size="80"] {
     max-width: 80%;
@@ -240,34 +253,43 @@ figure figcaption:empty{
     max-width: 50%;
 }
 [data-size="79"]{
-    max-width: 79%;
+    max-width: 80%;
 }
-[data-size="58"]{
-    max-width: 58%;
+[data-size="71"]{
+    max-width: 70%;
 }
-[data-size="81"]{
-    max-width: 81%;
+[data-size="70"]{
+    max-width: 70%;
+}
+[data-size="69"]{
+    max-width: 70%;
 }
 [data-size="62"]{
-    max-width: 62%;
-}
-[data-size="59"]{
-    max-width: 59%;
-}
-[data-size="99"]{
-    max-width: 99%;
-}
-[data-size="98"]{
-    max-width: 98%;
+    max-width: 60%;
 }
 [data-size="61"]{
-    max-width: 61%;
+    max-width: 60%;
 }
 [data-size="60"]{
     max-width: 60%;
 }
+[data-size="59"]{
+    max-width: 60%;
+}
+[data-size="58"]{
+    max-width: 60%;
+}
 [data-size="49"]{
     max-width: 49%;
+}
+[data-size="41"]{
+    max-width: 40%;
+}
+[data-size="40"]{
+    max-width: 40%;
+}
+[data-size="39"]{
+    max-width: 40%;
 }
 
 /**
@@ -310,6 +332,10 @@ img {
         max-width: none;
         width: 100%;
         padding: 0;
+    }
+
+    .chapter-content {
+        padding: 24px;
     }
     
     section[data-title] {
@@ -423,17 +449,58 @@ img {
     width: unset;
 }
 
-@page:left {
-    margin-top: 12mm !important;
-    margin-bottom: 12mm !important;
-    margin-left: 15mm !important;
-    margin-right: 9mm !important; 
+
+@page {
+    size: A5;
+
+    @top-center {
+        content: string(title);
+    }
 }
+
 @page:right {
-    margin-top: 12mm !important;
-    margin-bottom: 12mm !important;
-    margin-left: 9mm !important;
-    margin-right: 15mm !important;
+    margin-top: 10mm !important;
+    margin-bottom: 10mm !important;
+    margin-left: 16mm !important; /* Minimum required by Amazon for 330 pages books*/
+    margin-right: 10mm !important; 
+
+    @bottom-right-corner {
+        content: counter(page);
+    }
+}
+@page:left {
+    margin-top: 10mm !important;
+    margin-bottom: 10mm !important;
+    margin-left: 10mm !important;
+    margin-right: 16mm !important;
+
+    @bottom-left-corner {
+        content: counter(page);
+    }
+}
+
+.print h2 {
+    string-set: title content(text);
+}
+
+.print h3 {
+    page-break-after: avoid; /* keep title with next paragraph */
+    page-break-inside: avoid;
+}
+.print h4 {
+    page-break-after: avoid; /* keep title with next paragraph */
+    page-break-inside: avoid;
+}
+
+.print blockquote,
+.print code,
+.print pre,
+.print figure {
+    page-break-inside: avoid;
+}
+
+.print p {
+    widows: 3;
 }
 
 .print .toc a {
@@ -453,6 +520,10 @@ img {
     max-width: none;
     width: 100%;
     padding: 0;
+}
+
+.print section[data-title="Title Page"] {
+    display: none;
 }
 
 .print section[data-title] {
@@ -480,4 +551,14 @@ img {
     align-items: center;
     justify-content: end;
     flex-direction: column;
+}
+
+.print [data-size="100"]{
+    max-width: 80%;
+}
+.print [data-size="99"]{
+    max-width: 80%;
+}
+.print [data-size="98"]{
+    max-width: 80%;
 }

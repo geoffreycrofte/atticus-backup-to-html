@@ -21,6 +21,8 @@
     <?php 
     if ( isset( $_GET['print'] ) ) {
         echo '<style>' . file_get_contents("assets/styles.css") . '</style>';
+        //echo '<link rel="stylesheet" href="assets/paged.interface.css" media="screen">';
+        //echo '<script src="assets/paged.polyfill.js"></script>';
     } else {
         echo '<link rel="stylesheet" href="assets/styles.css">';
     }
@@ -56,7 +58,8 @@
             'width' => '210',
             'height' => '297'
         )); ?>
-        <p class="isbn">ISBN : <?php echo get_book_info('eisbn'); ?></p>
+        <p class="isbn">e-ISBN : <?php echo get_book_info('eisbn'); ?></p>
+        <p class="isbn">ISBN : <?php echo get_book_info('isbn'); ?></p>
     </header>
 
 

@@ -11,9 +11,9 @@
     function get_book_info( $name, $attrs = array() ) {
         global $data;
 
-        // 0 - Form FR
-        // 1 - Form EN
-        $book = $data[0];
+        // 1 - Form FR
+        // 0 - Form EN
+        $book = $data[ (isset( $_GET['book'] ) ? (int) $_GET['book'] : 0 )];
 
         switch ($name) {
             case 'author':
@@ -37,7 +37,7 @@
                     break;
 
             case 'isbn':
-                return $book['isbn'];
+                return $book['printISBN'];
                 break;
             
             case 'eisbn':
@@ -110,7 +110,7 @@
                     break;
 
                 case 'a':
-                    $output .= isset( $_GET['print'] ) ? '<u>' .  $c['children'][0]['text'] . '</u> (' . get_printable_url( $c['url'] ) . ')' : '<a href="' . $c['url'] . '" id="' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
+                    $output .= get_the_link_markup( $c );
                     $chapter_links[ $chapt_id ][] = array('id' => get_child_id( $c ), 'href' => $c['url'], 'text' => $c['children'][0]['text']);
                     break;
 
@@ -257,6 +257,24 @@
         }
 
         return $output;
+    }
+
+    /**
+     * Return a different formatting for links depending on the goal (print, web) and type of links
+     */
+    function get_the_link_markup( $c ) {
+        $output = '';
+
+        if ( isset( $_GET['print'] ) ) {
+            $isInternal = preg_match( '#\#chapter#', $c['url'] );
+            $output .= $isInternal === false ? 
+                '<u>' .  $c['children'][0]['text'] . '</u> (' . get_printable_url( $c['url'] ) . ')' :
+                '<span class="intlink">'.$c['children'][0]['text'] . '</span>';
+        } else {
+            $output .= '<a href="' . $c['url'] . '" id="' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
+        }
+
+        return  $output;
     }
 
     /**
