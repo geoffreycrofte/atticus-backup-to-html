@@ -47,19 +47,42 @@
     */
     ?>
 
+    <?php if ( count( $data ) > 1 ) { ?>
+    <nav class="no-pdf">
+        <ul>
+
+        <?php foreach ( $data as $k => $b ) { ?>
+            <?php $title = get_book_info('title', array(), $b) . ' : ' . get_book_info('subtitle', array(), $b); ?>
+            <li>
+                <a href=".?book=<?php echo $k; ?>"<?php echo isset( $_GET['book'] ) && (int) $_GET['book'] === (int) $k ? ' aria-current="true"' : ''; ?> title="<?php echo $title; ?>">
+                <?php echo get_book_info('cover', array(
+                    'alt' =>  $title,
+                    'width' => '210',
+                    'height' => '297'
+                ), $b); ?>
+                </a>
+            </li>
+
+        <?php } ?>
+
+        </ul>
+    </nav>
+    <?php } ?>
     <header role="banner" class="no-pdf">
-        <h1 class="sr-only">
-            <?php echo get_book_info('title'); ?>
-            <span><?php echo get_book_info('subtitle'); ?></span>
-            <span class="author"><?php echo $by; ?> <?php echo get_book_info('author'); ?></span>
-        </h1>
-        <?php echo get_book_info('cover', array(
-            'alt' => '',
-            'width' => '210',
-            'height' => '297'
-        )); ?>
-        <p class="isbn">e-ISBN : <?php echo get_book_info('eisbn'); ?></p>
-        <p class="isbn">ISBN : <?php echo get_book_info('isbn'); ?></p>
+        <div>
+            <h1 class="sr-only">
+                <?php echo get_book_info('title'); ?>
+                <span><?php echo get_book_info('subtitle'); ?></span>
+                <span class="author"><?php echo $by; ?> <?php echo get_book_info('author'); ?></span>
+            </h1>
+            <?php echo get_book_info('cover', array(
+                'alt' => '',
+                'width' => '210',
+                'height' => '297'
+            )); ?>
+            <p class="isbn">e-ISBN : <?php echo get_book_info('eisbn'); ?></p>
+            <p class="isbn">ISBN : <?php echo get_book_info('isbn'); ?></p>
+        </div>
     </header>
 
 
@@ -135,9 +158,10 @@
     </main>
 
     <footer role="contentinfo" class="no-pdf">
+
         <a href="<?php echo get_book_info('publisherLink'); ?>">
                 
-            <?php echo get_book_info('publisherLogo', array(
+            <?php echo get_book_info('publisherLogoURL', array(
                 'alt' => get_book_info('publisherName') . ', Ninja Lead Designer',
                 'width' => 236,
                 'height' => 56,

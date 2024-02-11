@@ -8,14 +8,17 @@
         return $json_data;
     }
 
-    function get_book_info( $name, $attrs = array() ) {
+    function get_book_info( $name, $attrs = array(), $book_array = null ) {
         global $data;
 
         // 1 - Form FR
         // 0 - Form EN
-        $book = $data[ (isset( $_GET['book'] ) ? (int) $_GET['book'] : 0 )];
+        //
+        // The reference book is either the $book_array value itself, or the value of get, or 0, in that order.
+        $book = $book_array !== null ? $book_array : $data[ ( isset( $_GET['book'] ) ? (int) $_GET['book'] : 0 ) ];
+        
 
-        switch ($name) {
+        switch ( $name ) {
             case 'author':
                 return $book['author'][0];
                 break;
@@ -24,7 +27,7 @@
                 return '<img src="' . $book['coverImageUrl'] . '" class="cover"' . add_html_attrs( $attrs ) . '>';
                 break;
 
-            case 'publisherLogo':
+            case 'publisherLogoURL':
                 return '<img src="' . $book['publisherLogoURL'] . '" class="publisher-logo"' . add_html_attrs( $attrs ) . '>';
                 break;
 
@@ -95,7 +98,7 @@
             if ( ! isset( $c['type'] ) ) {
 
                 // Text output with bold or italic (italic being used for the other lang thant the main one FR if EN, or EN if FR)
-                $output .= ( isset( $c['monospace'] ) ? '<code>' : ''  ) . ( isset( $c['bold'] ) ? '<strong>' : ''  ) . ( isset( $c['italic'] ) ? '<i lang="en">' : ''  ) . nl2br( htmlentities( $c['text'] ) ) . ( isset( $c['italic'] ) ? '</i>' : ''  ) . ( isset( $c['bold'] ) ? '</strong>' : ''  ) . ( isset( $c['monospace'] ) ? '</code>' : ''  );
+                $output .= ( isset( $c['monospace'] ) ? '<code>' : ''  ) . ( isset( $c['bold'] ) ? '<strong>' : ''  ) . ( isset( $c['italic'] ) ? '<i lang="en">' : ''  ) . nl2br( htmlentities( maybe_remove_emoji( $c['text'] ) ) ) . ( isset( $c['italic'] ) ? '</i>' : ''  ) . ( isset( $c['bold'] ) ? '</strong>' : ''  ) . ( isset( $c['monospace'] ) ? '</code>' : ''  );
                 continue;
             }
 
@@ -131,23 +134,23 @@
                     break;
 
                 case 'h2':
-                    $output .= '<h3 class="h2" id="' . $chapt_id . '_' . $h2 . '">' .  $c['children'][0]['text'] . '</h3>';
+                    $output .= '<h3 class="h2" id="' . $chapt_id . '_' . $h2 . '">' . maybe_remove_emoji( $c['children'][0]['text'] ) . '</h3>';
                     $h2 = $h2 + 1;
                     break;
 
                 case 'h3':
                     //$output .= '<h4 class="h3">Les titres de niveau 3 buggouillent</h4>';
-                    $output .= '<h4 class="h3" id="' . $chapt_id . '_h3_' . $h3 . '">' .  $c['children'][0]['text'] . '</h4>';
+                    $output .= '<h4 class="h3" id="' . $chapt_id . '_h3_' . $h3 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h4>';
                     $h3 = $h3 + 1;
                     break;
                 
                 case 'h4':
-                    $output .= '<h5 class="h4" id="' . $chapt_id . '_h4_' . $h4 . '">' .  $c['children'][0]['text'] . '</h5>';
+                    $output .= '<h5 class="h4" id="' . $chapt_id . '_h4_' . $h4 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h5>';
                     $h4 = $h4 + 1;
                     break;
 
                 case 'h5':
-                    $output .= '<h6 class="h5" id="' . $chapt_id . '_h5_' . $h5 . '">' .  $c['children'][0]['text'] . '</h6>';
+                    $output .= '<h6 class="h5" id="' . $chapt_id . '_h5_' . $h5 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h6>';
                     $h5 = $h5 + 1;
                     break;
 
@@ -268,8 +271,8 @@
         if ( isset( $_GET['print'] ) ) {
             $isInternal = preg_match( '#\#chapter#', $c['url'] );
             $output .= $isInternal === 0 ? 
-                '<u>' .  $c['children'][0]['text'] . '</u> (' . get_printable_url( $c['url'] ) . ')' :
-                '<span class="intlink">'.$c['children'][0]['text'] . '</span>';
+                '<u>' .  $c['children'][0]['text'] . '</u> <span class="printable-link">(' . get_printable_url( $c['url'] ) . ')</span> ' :
+                '<span class="intlink">' . $c['children'][0]['text'] . '</span>';
         } else {
             $output .= '<a href="' . $c['url'] . '" id="' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
         }
@@ -283,6 +286,38 @@
     function get_printable_url( $url ) {
         $url = explode( '?utm_source' , $url );
         return $url[0];
+    }
+
+    /**
+     * Remove Emoji Function because Amazon printers don't like emojis 
+     */
+    function maybe_remove_emoji( $text ) {
+
+        if ( ! isset( $_GET['print'] ) ) return $text;
+
+        $clean_text = "";
+    
+        // Match Emoticons
+        $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
+        $clean_text = preg_replace($regexEmoticons, '', $text);
+    
+        // Match Miscellaneous Symbols and Pictographs
+        $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
+        $clean_text = preg_replace($regexSymbols, '', $clean_text);
+    
+        // Match Transport And Map Symbols
+        $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
+        $clean_text = preg_replace($regexTransport, '', $clean_text);
+    
+        // Match Miscellaneous Symbols
+        $regexMisc = '/[\x{2600}-\x{26FF}]/u';
+        $clean_text = preg_replace($regexMisc, '', $clean_text);
+    
+        // Match Dingbats
+        $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
+        $clean_text = preg_replace($regexDingbats, '', $clean_text);
+    
+        return $clean_text;
     }
 
     /**
@@ -306,7 +341,9 @@
             $output .= '<pre' . ( isset( $c['id'] ) ? ' id="code-' . $c['id'] : '' ) . '"><code>';
 
             foreach ($c['children'] as $cp) {
-                $output .= str_replace( array('<', '>'), array('&lt;', '&gt;'), $cp['text'] );
+                $text = str_replace( array('<', '>'), array('&lt;', '&gt;'), $cp['text'] );
+                $text = isset( $cp['bold'] ) ? '<strong>' . $text . '</strong>' :  $text;
+                $output .= $text;
             }
 
             $output .= '</code></pre>';
@@ -334,6 +371,8 @@
      * Fallbacks to normal URL if file_get_contents doesn't work.
      */
     function maybe_base64url( $url, $mime_type = null ) {
+
+        return $url; // temp
 
         if ( ! isset( $_GET['print'] ) ) return $url;
 
