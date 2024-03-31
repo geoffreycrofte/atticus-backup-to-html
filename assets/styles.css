@@ -4,9 +4,9 @@
 
 body {
     display: grid;
-    grid-template-areas: 'nav header content'
-                         'footer header content';
-    grid-template-columns: 120px 320px 1fr;
+    grid-template-areas: 'header content'
+                         'footer content';
+    grid-template-columns: 320px 1fr;
     grid-template-rows: 1fr auto;
     padding: 0;
     margin: 0;
@@ -14,6 +14,13 @@ body {
     font-family: 'Poppins', "Helvetica Neue", "Arial", sans-serif;
     line-height: 1.7;
     color: rgb(50,50,50);
+}
+
+.books {
+    grid-template-areas: 'nav header content'
+                         'footer header content';
+    grid-template-columns: 120px 320px 1fr;
+    grid-template-rows: 1fr auto;
 }
 
 a {
@@ -32,6 +39,10 @@ ol.toc li {
 
 ol.toc li a {
     -prince-pdf-tag-type: TOCI;
+}
+
+ol.toc li a::after {
+    content: leader('.') target-counter(attr(href), page, decimal);
 }
 
 ol.toc-subheadings {
@@ -267,6 +278,19 @@ main pre code {
 
 main pre code strong {
     color: white;
+}
+
+.callout.callout {
+    margin-block: 2em;
+    padding: 1em;
+}
+
+.callout.callout *:first-child {
+    margin: 0;
+}
+
+.callout.callout *:last-child {
+    margin: 0;
 }
 
 p > code {

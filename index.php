@@ -29,7 +29,7 @@
     ?>
 
 </head>
-<body>
+<body class="<?php echo count( $data ) > 1 ? 'books' : 'book'; ?>">
 
     <?php
     
@@ -80,8 +80,20 @@
                 'width' => '210',
                 'height' => '297'
             )); ?>
-            <p class="isbn">e-ISBN : <?php echo get_book_info('eisbn'); ?></p>
-            <p class="isbn">ISBN : <?php echo get_book_info('isbn'); ?></p>
+
+            <?php
+                $eisbn = get_book_info('eisbn');
+                if ( $eisbn !== '' ) {
+            ?>
+
+            <p class="isbn">e-ISBN&nbsp;: <?php eesc_attr( $eisbn ); ?></p>
+
+            <?php }
+                $isbn = get_book_info('isbn');
+                if ( $isbn !== '' ) {
+            ?>
+            <p class="isbn">ISBN&nbsp;: <?php eesc_attr( $isbn ); ?></p>
+            <?php } ?>
         </div>
     </header>
 

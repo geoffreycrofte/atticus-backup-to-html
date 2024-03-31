@@ -8,16 +8,20 @@
         return $json_data;
     }
 
-    function get_book_info( $name, $attrs = array(), $book_array = null ) {
+    function get_current_book($current = null) {
         global $data;
-
         // 1 - Form FR
         // 0 - Form EN
         //
         // The reference book is either the $book_array value itself, or the value of get, or 0, in that order.
-        $book = $book_array !== null ? $book_array : $data[ ( isset( $_GET['book'] ) ? (int) $_GET['book'] : 0 ) ];
-        
+        return $current !== null ? $current : $data[ ( isset( $_GET['book'] ) ? (int) $_GET['book'] : 0 ) ];
+    }
 
+    function get_book_info( $name, $attrs = array(), $book_array = null ) {
+        global $data;
+
+        $book = get_current_book( $book_array );
+        
         switch ( $name ) {
             case 'author':
                 return $book['author'][0];
@@ -40,7 +44,7 @@
                     break;
 
             case 'isbn':
-                return $book['printISBN'];
+                return isset ( $book['isbn'] ) ? $book['isbn'] :  ( isset( $book['printISBN'] ) ? $book['printISBN'] : '' );
                 break;
             
             case 'eisbn':
@@ -158,6 +162,10 @@
                     $output .= '<blockquote id="' . get_child_id ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . ( isset( $c['quotee'] ) ? '<cite>' . $c['quotee'] . '</cite>' : '') . '</blockquote>';
                     break;
 
+                case 'calloutbox':
+                    $output .= '<div class="callout" style="' . get_callout_styles ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . '</div>';
+                    break;
+
                 case 'code_block':
                     $output .= format_code_block( $c );
                     break;
@@ -186,14 +194,33 @@
     }
 
     /**
+     * Get the styles ready for the style attribute
+     */
+    function get_callout_styles( $child ) {
+        $style = "";
+        
+        if ( $child['background']['fill'] ) {
+            $style .= 'background:' . hexToRgb( $child['background']['fillColor'], $child['background']['fillOpacity'] ) . ';';
+
+        }
+
+        if ( $child['border']['border'] ) {
+            $style .= 'border:' . $child['border']['borderWidth'] . 'px ' . $child['border']['borderStyle'] . ' ' . hexToRgb($child['border']['borderColor'], $child['border']['borderOpacity'] ) . ';';
+            $style .= 'border-radius:'. $child['border']['borderRadius'] . 'px;';
+        }; 
+
+        return $style;
+    }
+
+    /**
      * Get the Table of Content
      */
     function get_table_of_content($subheading, $subtitle) {
-        global $data;
+        $book = get_current_book();
 
-        if ( ! is_array( $data[0]['chapterIds'] ) ) return;
+        if ( ! is_array( $book['chapterIds'] ) ) return;
 
-        $chapterNamed = get_named_chapters( $data[0]['chapters'] );
+        $chapterNamed = get_named_chapters( $book['chapters'] );
 
         $toc = '<ol class="toc">';
         foreach( $chapterNamed as $chapter ) {
@@ -249,6 +276,7 @@
 
     /**
      * Get the chapter links based on chapterID
+     * NOT USED ANYWHERE AT THE MOMENT
      */
     function get_chapter_links( $all_links, $chapter_id = null ) {
         $output = '';
@@ -364,6 +392,18 @@
      */
     function eesc_attr( $string ) {
         echo esc_attr( $string );
+    }
+
+    function hexToRgb($hex, $alpha = false) {
+        $hex      = str_replace('#', '', $hex);
+        $length   = strlen($hex);
+        $rgb['r'] = hexdec($length == 6 ? substr($hex, 0, 2) : ($length == 3 ? str_repeat(substr($hex, 0, 1), 2) : 0));
+        $rgb['g'] = hexdec($length == 6 ? substr($hex, 2, 2) : ($length == 3 ? str_repeat(substr($hex, 1, 1), 2) : 0));
+        $rgb['b'] = hexdec($length == 6 ? substr($hex, 4, 2) : ($length == 3 ? str_repeat(substr($hex, 2, 1), 2) : 0));
+        if ( $alpha ) {
+            $rgb['a'] = $alpha;
+        }
+        return 'rgba(' . $rgb['r'] . ',' . $rgb['g'] . ',' . $rgb['b'] . ',' . ( isset ( $rgb['a'] ) ? $rgb['a'] : '1' ) . ')';
     }
 
     /**
