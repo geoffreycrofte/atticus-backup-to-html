@@ -21,8 +21,6 @@
     <?php 
     if ( isset( $_GET['print'] ) ) {
         echo '<style>' . file_get_contents("assets/styles.css") . '</style>';
-        //echo '<link rel="stylesheet" href="assets/paged.interface.css" media="screen">';
-        //echo '<script src="assets/paged.polyfill.js"></script>';
     } else {
         echo '<link rel="stylesheet" href="assets/styles.css">';
     }

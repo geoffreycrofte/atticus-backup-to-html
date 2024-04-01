@@ -113,7 +113,7 @@
                     break;
 
                 case 'p':
-                    $output .= '<p id="' . get_child_id ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . '</p>';
+                    $output .= '<p id="cg' . get_child_id ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . '</p>';
                     break;
 
                 case 'a':
@@ -138,28 +138,28 @@
                     break;
 
                 case 'h2':
-                    $output .= '<h3 class="h2" id="' . $chapt_id . '_' . $h2 . '">' . maybe_remove_emoji( $c['children'][0]['text'] ) . '</h3>';
+                    $output .= '<h3 class="h2" id="cg' . $chapt_id . '_' . $h2 . '">' . maybe_remove_emoji( $c['children'][0]['text'] ) . '</h3>';
                     $h2 = $h2 + 1;
                     break;
 
                 case 'h3':
                     //$output .= '<h4 class="h3">Les titres de niveau 3 buggouillent</h4>';
-                    $output .= '<h4 class="h3" id="' . $chapt_id . '_h3_' . $h3 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h4>';
+                    $output .= '<h4 class="h3" id="cg' . $chapt_id . '_h3_' . $h3 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h4>';
                     $h3 = $h3 + 1;
                     break;
                 
                 case 'h4':
-                    $output .= '<h5 class="h4" id="' . $chapt_id . '_h4_' . $h4 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h5>';
+                    $output .= '<h5 class="h4" id="cg' . $chapt_id . '_h4_' . $h4 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h5>';
                     $h4 = $h4 + 1;
                     break;
 
                 case 'h5':
-                    $output .= '<h6 class="h5" id="' . $chapt_id . '_h5_' . $h5 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h6>';
+                    $output .= '<h6 class="h5" id="cg' . $chapt_id . '_h5_' . $h5 . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h6>';
                     $h5 = $h5 + 1;
                     break;
 
                 case 'blockquote':
-                    $output .= '<blockquote id="' . get_child_id ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . ( isset( $c['quotee'] ) ? '<cite>' . $c['quotee'] . '</cite>' : '') . '</blockquote>';
+                    $output .= '<blockquote id="cg' . get_child_id ( $c ) . '">' . more_children( $c['children'], $chapt_id ) . ( isset( $c['quotee'] ) ? '<cite>' . $c['quotee'] . '</cite>' : '') . '</blockquote>';
                     break;
 
                 case 'calloutbox':
@@ -224,13 +224,13 @@
 
         $toc = '<ol class="toc">';
         foreach( $chapterNamed as $chapter ) {
-            $toc .= '<li class="toc-item"><a href="#' . $chapter['id'] . '">' . $chapter['title'] . '' . ( $subtitle ? ' <span class="subtitle">' . $chapter['subtitle'] . '</span>' : '') . '</a>';
+            $toc .= '<li class="toc-item"><a href="#cg' . $chapter['id'] . '">' . $chapter['title'] . '' . ( $subtitle ? ' <span class="subtitle">' . $chapter['subtitle'] . '</span>' : '') . '</a>';
 
             if ( $subheading && isset( $chapter['headings'] ) && is_array( $chapter['headings'] ) && ! empty( $chapter['headings'] ) ) {
                 $toc .= '<ol class="toc-subheadings">';
 
                 foreach ( $chapter['headings'] as $heading) {
-                    $toc .= '<li class="toc-subheadings-item"><a href="#' . $heading['id'] . '">' . $heading['title'] . '</a></li>';
+                    $toc .= '<li class="toc-subheadings-item"><a href="#cg' . $heading['id'] . '">' . $heading['title'] . '</a></li>';
                 }
 
                 $toc .= '</ol>';
@@ -300,9 +300,9 @@
             $isInternal = preg_match( '#\#chapter#', $c['url'] );
             $output .= $isInternal === 0 ? 
                 '<u>' .  $c['children'][0]['text'] . '</u> <span class="printable-link">(' . get_printable_url( $c['url'] ) . ')</span> ' :
-                '<span class="intlink">' . $c['children'][0]['text'] . '</span>';
+                '<a class="intlink" href="#cg' . explode( '#chapter=', $c['url'] )[1] . '">' . $c['children'][0]['text'] . '</a>';
         } else {
-            $output .= '<a href="' . $c['url'] . '" id="' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
+            $output .= '<a href="' . $c['url'] . '" id="cg' . get_child_id ( $c ) . '">' .  $c['children'][0]['text'] . '</a>';
         }
 
         return  $output;
@@ -366,7 +366,7 @@
         $output = '';
 
         if ( isset( $c['type'], $c['children'] ) &&  $c['type'] == 'code_block' && is_array( $c['children'] ) ) {
-            $output .= '<pre' . ( isset( $c['id'] ) ? ' id="code-' . $c['id'] : '' ) . '"><code>';
+            $output .= '<pre' . ( isset( $c['id'] ) ? ' id="cgcode-' . $c['id'] : '' ) . '"><code>';
 
             foreach ($c['children'] as $cp) {
                 $text = str_replace( array('<', '>'), array('&lt;', '&gt;'), $cp['text'] );
