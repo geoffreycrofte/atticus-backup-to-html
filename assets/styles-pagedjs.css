@@ -435,7 +435,7 @@ img {
     padding: 0;
     margin: 0 auto;
     line-height: 1.7;
-    font-size: 0.975rem;
+    font-size: 0.97rem;
 }
 
 .print .chapter-header {
@@ -465,10 +465,12 @@ img {
     margin-top: 10mm !important;
     margin-bottom: 18mm !important;
     margin-left: 16mm !important;
-    margin-right: 14mm !important; 
+    margin-right: 10mm !important; 
 
     @bottom-right-corner {
         content: counter(page);
+        position: relative;
+        right: 1.35em;
         font-size: .75rem;
         font-weight: bold;
     }
@@ -477,25 +479,29 @@ img {
         content: string(title);
         font-size: 0.75rem;
         font-weight: bold;
+        color:#727083;
     }
 }
 
 @page:left {
     margin-top: 10mm !important;
     margin-bottom: 18mm !important;
-    margin-left: 14mm !important;
+    margin-left: 10mm !important;
     margin-right: 16mm !important;
 
     @bottom-left-corner {
         content: counter(page);
+        position: relative;
+        left: 1.35em;
         font-size: 0.75rem;
         font-weight: bold;
     }
 
     @bottom-center {
-        /*content: "Product Design Series";*/
+        content: 'Web Forms';
         font-size: 0.75rem;
         font-weight: bold;
+        color:#727083;
     }
 }
 
@@ -521,6 +527,10 @@ img {
 .pagedjs_page:has(section:empty) [class*="pagedjs_margin-"],
 .pagedjs_page:has(section:empty) .pagedjs_margin {
     display: none;
+}
+
+.pagedjs_page_content *:first-child {
+    margin-top: unset;
 }
 
 
@@ -645,6 +655,8 @@ img {
 
 .pagedjs_pagebox:has(.chapter-header) > .pagedjs_area > .pagedjs_page_content {
     height: auto;
+    margin-top: -.24in;
+    margin-bottom: -.2in;
 }
 
 .pagedjs_page:has(.chapter-header) {
@@ -652,4 +664,29 @@ img {
     --pagedjs-margin-left: 0;
     --pagedjs-margin-right: 0;
     --pagedjs-margin-bottom: 0;
+}
+
+/* Amazon Safe Area*/
+.pagedjs_left_page .pagedjs_pagebox {
+    box-shadow: 0 0 0 1px var(--color-pageBox),
+                inset 0.31in 0 0 white, 
+                inset -0.57in 0 0 white, 
+                inset 0 .24in 0 white,
+                inset 0 -.26in 0 white,
+                inset 0.32in 0 0 turquoise, 
+                inset -0.58in 0 0 turquoise, 
+                inset 0 .25in 0 turquoise,
+                inset 0 -.27in 0 turquoise;
+}
+
+.pagedjs_right_page .pagedjs_pagebox {
+    box-shadow: 0 0 0 1px var(--color-pageBox),
+                inset -.31in 0 0 white, 
+                inset .57in 0 0 white,
+                inset 0 .24in 0 white,
+                inset 0 -.26in 0 white,
+                inset -.32in 0 0 turquoise, 
+                inset .58in 0 0 turquoise, 
+                inset 0 .25in 0 turquoise,
+                inset 0 -.27in 0 turquoise;
 }
