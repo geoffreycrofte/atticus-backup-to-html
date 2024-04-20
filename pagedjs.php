@@ -68,14 +68,16 @@
         }
 
         $chapters = get_book_info('chapters');
-        $chptNb = -2;
+        $chptNb = 0;
 
         foreach ( $chapters as $chapter ) {
+            // For some reasons, an unset numbered array key can mean the chapter is numbered... Thank you Atticus :/
+            if ( is_numbered_chapter( $chapter ) ) $chptNb++;
     ?>
         <section data-title="<?php eesc_attr( $chapter['title'] ); ?>">
             
             <div class="chapter-header">
-                <?php if ( $chptNb > 0 ) { ?><p class="chapter-counter" id="chapter-<?php echo $chptNb; ?>"><?php echo $chaptername; ?> <?php echo $chptNb; ?></p><?php } ?>
+                <?php if ( is_numbered_chapter( $chapter ) ) { ?><p class="chapter-counter" id="chapter-<?php echo (int) $chptNb; ?>"><?php echo $chaptername; ?> <?php echo (int) $chptNb; ?></p><?php } ?>
                 <h2 id="cg<?php eesc_attr( $chapter['_id'] ); ?>" class="chapter-title"><?php echo $chapter['title']; ?></h2>
             </div>
             
@@ -88,7 +90,6 @@
 
         </section>
     <?php
-            $chptNb++;
         }
     ?>
 </body>

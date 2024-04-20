@@ -5,7 +5,7 @@
 body {
     padding: 0;
     margin: 0;
-    font-size: 1em;
+    font-size: .925em;
     font-family: 'Poppins', "Helvetica Neue", "Arial", sans-serif;
     line-height: 1.7;
     color: rgb(50,50,50);
@@ -18,6 +18,7 @@ a {
 ol.toc {
     padding: 24px 40px;
     margin: 0 auto;
+    list-style: none;
     -prince-pdf-tag-type: TOC;
 }
 
@@ -30,6 +31,7 @@ ol.toc li a {
 }
 
 ol.toc li a::after {
+    margin-inline-start: auto;
     content: target-counter(attr(href url), page, decimal);
 }
 
@@ -45,7 +47,15 @@ ol.toc-subheadings {
 
 ol.toc-subheadings li {
     font-weight: normal;
-    
+}
+
+.toc .chapter-number {
+    display: inline-block;
+    min-width: 0.75em;
+}
+
+.toc .chapter-number::after {
+    content: '.';
 }
 
 /**
@@ -129,14 +139,14 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 .chapter-content .h2 {
     -webkit-break-after: avoid;
     break-after: avoid;
-    font-size: 1.75rem;
+    font-size: 1.55rem;
     color:#2b094a;
 }
 
 .chapter-content .h3 {
     -webkit-break-after: avoid;
     break-after: avoid;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color:#306C98
 }
 
@@ -169,7 +179,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     display: block;
     padding: 1em;
     white-space: pre-wrap;
-    font-size: 1.1em;
+    font-size: 1.05em;
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-weight: 500;
     background: rgb(16,15,32);
@@ -197,7 +207,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 }
 
 p > code {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #306C98;
 }
 
@@ -208,7 +218,6 @@ figure {
 
 figure figcaption {
     padding: 1em;
-    font-size: .875rem;
     background: #D8E2F1;
     font-weight: 500;
     position: relative;
@@ -216,7 +225,7 @@ figure figcaption {
     width: 5in;
     line-height: 1.4;
     transform: translateX(-50%);
-    font-size: 0.775em;
+    font-size: 0.725rem;
     font-weight: 600;
 }
 
@@ -435,7 +444,6 @@ img {
     padding: 0;
     margin: 0 auto;
     line-height: 1.7;
-    font-size: 0.97rem;
 }
 
 .print .chapter-header {
@@ -453,11 +461,19 @@ img {
     width: unset;
 }
 
+/* For 6in 9in */
 @page {
-    /* size: A4; */
     bleed: 6mm;
     size: 6in 9in;
 }
+
+
+/* For A5 
+@page {
+    bleed: 6mm;
+    size: A5;
+}
+*/
 
 /* Remove for digital PDF export */
 
@@ -568,8 +584,8 @@ img {
 
 .print .toc a {
     display: flex;
-    justify-content: space-between;
-    gap: 1em;
+    justify-content: flex-start;
+    gap: 0.5em;
     text-decoration: none;
     color:#100F20;
 }

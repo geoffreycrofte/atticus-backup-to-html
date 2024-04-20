@@ -36,11 +36,11 @@
                 break;
 
             case 'publisherName':
-                return $book['publisherName'];
+                return isset( $book['publisherName'] ) ? $book['publisherName'] : '';
                 break;
 
             case 'publisherLink':
-                    return $book['publisherLink'];
+                    return isset( $book['publisherLink'] ) ? $book['publisherLink'] : '';
                     break;
 
             case 'isbn':
@@ -48,19 +48,19 @@
                 break;
             
             case 'eisbn':
-                return $book['ebookISBN'];
+                return isset ( $book['ebookISBN'] ) ? $book['ebookISBN'] : '';
                 break;
 
             case 'lang':
-                return $book['language'];
+                return isset ( $book['language'] ) ? $book['language'] : 'en';
                 break;
 
             case 'title':
-                return $book['title'];
+                return isset ( $book['title'] ) ? $book['title'] : '';
                 break;
 
             case 'subtitle':
-                return $book['subtitle'];
+                return isset( $book['subtitle'] ) ? $book['subtitle'] : '';
                 break;
 
             case 'genericPages':
@@ -71,7 +71,7 @@
                 return $book['chapters'];
             
             default:
-                return 'Unknown $name';
+                return 'Unknown ' . $name;
                 break;
         }
     }
@@ -224,13 +224,16 @@
 
         $toc = '<ol class="toc">';
         foreach( $chapterNamed as $chapter ) {
-            $toc .= '<li class="toc-item"><a href="#cg' . $chapter['id'] . '">' . $chapter['title'] . '' . ( $subtitle ? ' <span class="subtitle">' . $chapter['subtitle'] . '</span>' : '') . '</a>';
+            // Skip empty chapters? Happened in some exports.
+            if ( ! isset(  $chapter['id'] ) && ! isset( $chapter['title'] ) ) continue;
+
+            $toc .= '<li class="toc-item"><a href="#cg' . $chapter['id'] . '">' . ( $chapter['number'] !== 'none' ?  '<span class="chapter-number">' . $chapter['number'] . '</span>' : '' ) . '' . $chapter['title'] . '' . ( $subtitle ? ' <span class="subtitle">' . $chapter['subtitle'] . '</span>' : '') . '</a>';
 
             if ( $subheading && isset( $chapter['headings'] ) && is_array( $chapter['headings'] ) && ! empty( $chapter['headings'] ) ) {
                 $toc .= '<ol class="toc-subheadings">';
 
                 foreach ( $chapter['headings'] as $heading) {
-                    $toc .= '<li class="toc-subheadings-item"><a href="#cg' . $heading['id'] . '">' . $heading['title'] . '</a></li>';
+                    $toc .= '<li class="toc-subheadings-item"><a href="#cg' . ( isset( $heading['id'] ) ? $heading['id'] : '' ) . '">' . $heading['title'] . '</a></li>';
                 }
 
                 $toc .= '</ol>';
@@ -251,10 +254,13 @@
         if ( ! is_array( $chapters ) ) return;
 
         $chapts = array();
+        $chaptNb = 0;
+
         foreach( $chapters as $chapter ) {
 
             $headings = array();
             $n = 1;
+
             foreach( $chapter['children'] as $child ) {
                 if ( $child['type'] !== 'h2' ) continue;
                 $headings[] = array(
@@ -264,14 +270,26 @@
                 $n++;
             }
 
+            if ( is_numbered_chapter( $chapter ) ) $chaptNb++;
+
             $chapts[] = array(
                 'id'       => $chapter['_id'],
                 'title'    => $chapter['title'],
                 'subtitle' => $chapter['subtitle'],
-                'headings' => $headings
+                'headings' => $headings,
+                'number'   => is_numbered_chapter( $chapter ) ? $chaptNb : 'none'
             );
+            
         }
         return $chapts;
+    }
+
+    /**
+     * Is this chapter supposed to be numbered?
+     * Function made necessary because Atticus isn't well made.
+     */
+    function is_numbered_chapter( $chapter ) {
+        return ( ! isset( $chapter['numbered'] ) OR ( isset( $chapter['numbered'] ) && $chapter['numbered'] ) );
     }
 
     /**

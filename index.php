@@ -5,6 +5,10 @@
     $by = get_book_info('lang') === 'fr' ? 'par' : 'by';
     $sommaire = get_book_info('lang') === 'fr' ? 'Sommaire' : 'Table of Content';
     $chaptername = get_book_info('lang') === 'fr' ? 'Chapitre' : 'Chapter';
+
+    // Personal themes to be used with my own books
+    $themes = array('forms', 'forms', 'accessibility', 'accessibility');
+
 ?><!DOCTYPE html>
 <html lang="<?php echo get_book_info('lang'); ?>"<?php echo isset( $_GET['print'] ) ? ' class="print"' : ''; ?>>
 <head>
@@ -27,30 +31,17 @@
     ?>
 
 </head>
-<body class="<?php echo count( $data ) > 1 ? 'books' : 'book'; ?>">
-
-    <?php
-    
-    //echo '<br><br>losange<br><br>' . maybe_base64url( 'assets/img/losange.png' );
-    //echo '<br><br>losange2<br><br>' . maybe_base64url( 'assets/img/losange-2.png' );
-    /*echo '<br><br>regularwoff2<br><br>' . maybe_base64url( 'assets/fonts/poppins-regular.woff2', 'font/woff2' );
-    echo '<br><br>regularwoff<br><br>' . maybe_base64url( 'assets/fonts/poppins-regular.woff', 'font/woff' );
-    echo '<br><br>italicwoff2<br><br>' . maybe_base64url( 'assets/fonts/poppins-italic.woff2', 'font/woff2' );
-    echo '<br><br>italicwoff<br><br>' . maybe_base64url( 'assets/fonts/poppins-italic.woff', 'font/woff' );
-    echo '<br><br>boldwoff2<br><br>' . maybe_base64url( 'assets/fonts/poppins-bold.woff2', 'font/woff2' );
-    echo '<br><br>boldwoff<br><br>' . maybe_base64url( 'assets/fonts/poppins-bold.woff', 'font/woff' );
-    echo '<br><br>blackwoff2<br><br>' . maybe_base64url( 'assets/fonts/poppins-black.woff2', 'font/woff2' );
-    echo '<br><br>blackwoff<br><br>' . maybe_base64url( 'assets/fonts/poppins-black.woff', 'font/woff' );
-    exit;
-    */
-    ?>
-
+<body class="<?php echo count( $data ) > 1 ? 'books' : 'book'; ?> theme-<?php echo isset( $_GET['book'] ) ? $themes[$_GET['book']] : ''; ?>">
     <?php if ( count( $data ) > 1 ) { ?>
     <nav class="no-pdf">
         <ul>
 
         <?php foreach ( $data as $k => $b ) { ?>
-            <?php $title = get_book_info('title', array(), $b) . ' : ' . get_book_info('subtitle', array(), $b); ?>
+            <?php
+                $subtitle = get_book_info('subtitle', array(), $b);
+                $separator = get_book_info('lang') === 'fr' ? ' : ' : ': ';
+                $title = get_book_info('title', array(), $b) . ( $subtitle !== '' ? $separator . $subtitle : '' );
+            ?>
             <li>
                 <a href=".?book=<?php echo $k; ?>"<?php echo isset( $_GET['book'] ) && (int) $_GET['book'] === (int) $k ? ' aria-current="true"' : ''; ?> title="<?php echo $title; ?>">
                 <?php echo get_book_info('cover', array(
