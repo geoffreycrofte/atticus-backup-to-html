@@ -3,7 +3,7 @@
     include( 'inc/utilities.php' );
     $data = get_book_data();
     $by = get_book_info('lang') === 'fr' ? 'par' : 'by';
-    $sommaire = get_book_info('lang') === 'fr' ? 'Sommaire' : 'Table of Content';
+    $toc = get_book_info('lang') === 'fr' ? 'Sommaire' : 'Table of Content';
     $chaptername = get_book_info('lang') === 'fr' ? 'Chapitre' : 'Chapter';
 
     // Personal themes to be used with my own books
@@ -94,7 +94,9 @@
     ?>
         <section id="<?php eesc_attr( $page['_id'] ); ?>" data-title="<?php eesc_attr( $page['title'] ); ?>">
             
-        <?php if ( $page['type'] === 'image' && isset( $page['fullpageImage']['imageUrl'] ) ) { ?>
+        <?php
+        if ( $page['type'] === 'image' && isset( $page['fullpageImage']['imageUrl'] ) ) {
+        ?>
 
             <?php echo ( $page['title'] === 'Title Page' ) ? '<h1>' : ''; ?>
 
@@ -102,37 +104,50 @@
             
             <?php echo ( $page['title'] === 'Title Page' ) ? '</h1>' : ''; ?>
 
-        <?php } elseif ( ! empty( $page['children'] ) ) {
+        <?php 
+        } elseif ( $page['type'] === 'toc') {
+        ?>
+            <div class="chapter-header">
+                <h2 class="chapter-title"><?php echo $toc; ?></h2>
+            </div>
+            <div class="chapter-content">
+
+            <?php
+                $options = $page['toc']['options'][0];
+                echo get_table_of_content( $options['showSubheading'], $options['showSubtitle'] );
+            ?>
+
+            </div>
+    <?php
+        } elseif ( ! empty( $page['children'] ) ) {
 
             $child_content = get_children_markup( $page['children'], $page['_id'] );
             echo $child_content[0]; //0 = content, 1 = links
 
-        } elseif ( $page['type'] === 'toc') {
-        ?>
-            <div class="chapter-header">
-                <h2 class="chapter-title"><?php echo $sommaire; ?></h2>
-            </div>
-            <div class="chapter-content">
-            <?php
-                $options = $page['toc']['options'][0];
-                echo get_table_of_content( $options['showSubheading'], $options['showSubtitle'] );
-            } 
-            ?>
-            </div>
-
-        </section>
-    <?php
         }
+    ?>
+
+        </section> 
+    
+    <?php
+        } //end of foreach $pages
 
         $chapters = get_book_info('chapters');
-        $chptNb = -2;
+        $chaptNumber = 1;
 
         foreach ( $chapters as $chapter ) {
     ?>
-        <section id="<?php eesc_attr( $chapter['_id'] ); ?>" data-title="<?php eesc_attr( $chapter['title'] ); ?>">
+        <section id="<?php echo get_valid_id( $chapter['_id'] ); ?>" data-title="<?php eesc_attr( $chapter['title'] ); ?>">
             
             <div class="chapter-header">
-                <?php if ( $chptNb > 0 ) { ?><p class="chapter-counter" id="chapter-<?php echo $chptNb; ?>"><?php echo $chaptername; ?> <?php echo $chptNb; ?></p><?php } ?>
+                <?php
+                    if ( isset( $chapter['numbered'] ) && $chapter['numbered'] === true ) {
+                ?>
+                        <p class="chapter-counter" id="chapter-<?php echo $chaptNumber; ?>"><?php echo $chaptername; ?> <?php echo $chaptNumber; ?></p>
+                <?php
+                        $chaptNumber++;
+                    }
+                ?>
                 <h2 class="chapter-title"><?php echo $chapter['title']; ?></h2>
             </div>
             
@@ -153,7 +168,6 @@
 
         </section>
     <?php
-            $chptNb++;
         }
     ?>
     </main>
@@ -169,6 +183,8 @@
             )); ?>
         </a>
     </footer>
+
+    <script async src="assets/main.js"></script>
 
 </body>
 </html>

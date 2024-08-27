@@ -5,7 +5,7 @@
 :root  {
     --bg-body: #ffffff;
     --bg-sidebar: #323232;
-    --bg-chapter-titles: #111111;
+    --bg-chapters: #111111;
     --bg-image-chapters: '';
     --bg-image-position-chapters: '';
 
@@ -16,7 +16,7 @@
 body.theme-forms {
     --bg-body: #ffffff;
     --bg-sidebar: #2b094a;
-    --bg-chapter-titles: #100F20;
+    --bg-chapters: #100F20;
     --bg-image-chapters: url(img/losange.png), url(img/losange-2.png);
     --bg-image-position-chapters: -50% -20%, right -50% bottom -20%;
     --bg-image-size-chapters: unset;
@@ -87,10 +87,57 @@ a {
     color: var(--color-main-links);
 }
 
+.toc-container {
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow: scroll;
+    background: inherit;
+}
+
+.toc-container .toc {
+    padding: 24px 0;
+    opacity: 0.1;
+    transition: all .4s;
+}
+
+.toc-container .toc a {
+    color: var(--bg-body);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all .3s;
+}
+
+.toc-container .toc:hover {
+    opacity: 0.8;
+}
+
+.toc-container .toc:focus-within,
+.toc-container .toc:has(a:hover) {
+    opacity: 1;
+}
+
+.toc-container .toc li a:hover,
+.toc-container .toc li a:focus-visible {
+    border-color: white;
+    outline: none;
+}
+
+
 ol.toc {
     padding: 24px 40px;
     margin: 0 auto;
+    list-style: none;
     -prince-pdf-tag-type: TOC;
+}
+
+.toc .chapter-number {
+    display: inline-block;
+    margin-right: .5em;
+}
+
+.toc .chapter-number::after {
+    content: '.';
 }
 
 ol.toc li {

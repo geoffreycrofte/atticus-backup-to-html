@@ -3,7 +3,7 @@
     include( 'inc/utilities.php' );
     $data = get_book_data();
     $by = get_book_info('lang') === 'fr' ? 'par' : 'by';
-    $sommaire = get_book_info('lang') === 'fr' ? 'Sommaire' : 'Table of Content';
+    $toc = get_book_info('lang') === 'fr' ? 'Sommaire' : 'Table of Content';
     $chaptername = get_book_info('lang') === 'fr' ? 'Chapitre' : 'Chapter';
 ?><!DOCTYPE html>
 <html lang="<?php echo get_book_info('lang'); ?>" class="print">
@@ -39,36 +39,37 @@
             
             <?php echo ( $page['title'] === 'Title Page' ) ? '</h1>' : ''; ?>
 
-        <?php } elseif ( ! empty( $page['children'] ) ) { ?>
+        <?php } elseif ( $page['type'] === 'toc') { ?>
 
-            <div class="other-types-like-copyright">
+        <div class="chapter-header">
+            <h2 class="chapter-title"><?php echo $toc; ?></h2>
+        </div>
+        <div class="chapter-content">
+        <?php
+            $options = $page['toc']['options'][0];
+            echo get_table_of_content( $options['showSubheading'], $options['showSubtitle'] );
+        ?>
+
+        </div>
+        <?php
+        }
+        elseif ( ! empty( $page['children'] ) ) { ?>
+
+        <div class="other-types-like-copyright">
         
         <?php
             $child_content = get_children_markup( $page['children'], $page['_id'] );
             echo $child_content[0]; //0 = content, 1 = links
         ?>
 
-            </div>
+        </div>
 
         <?php 
-            } elseif ( $page['type'] === 'toc') {
-        ?>
-
-        <div class="chapter-header">
-            <h2 class="chapter-title"><?php echo $sommaire; ?></h2>
-        </div>
-        <div class="chapter-content">
-        <?php
-            $options = $page['toc']['options'][0];
-            echo get_table_of_content( $options['showSubheading'], $options['showSubtitle'] );
-        } 
-        ?>
-        </div>
-    <?php
-        }
+            } 
+        }//end of foreach $pages
 
         $chapters = get_book_info('chapters');
-        $chptNb = 0;
+        $chaptNumber = 1;
 
         foreach ( $chapters as $chapter ) {
             // For some reasons, an unset numbered array key can mean the chapter is numbered... Thank you Atticus :/
@@ -77,8 +78,17 @@
         <section data-title="<?php eesc_attr( $chapter['title'] ); ?>">
             
             <div class="chapter-header">
-                <?php if ( is_numbered_chapter( $chapter ) ) { ?><p class="chapter-counter" id="chapter-<?php echo (int) $chptNb; ?>"><?php echo $chaptername; ?> <?php echo (int) $chptNb; ?></p><?php } ?>
-                <h2 id="cg<?php eesc_attr( $chapter['_id'] ); ?>" class="chapter-title"><?php echo $chapter['title']; ?></h2>
+                
+                <?php
+                    if ( isset( $chapter['numbered'] ) && $chapter['numbered'] === true ) {
+                ?>
+                        <p class="chapter-counter" id="chapter-<?php echo $chaptNumber; ?>"><?php echo $chaptername; ?> <?php echo $chaptNumber; ?></p>
+                <?php
+                        $chaptNumber++;
+                    }
+                ?>
+
+                <h2 id="<?php echo get_valid_id( $chapter['_id'] ); ?>" class="chapter-title"><?php echo $chapter['title']; ?></h2>
             </div>
             
             <div class="chapter-content">
