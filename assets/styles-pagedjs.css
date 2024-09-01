@@ -5,7 +5,7 @@
 body {
     padding: 0;
     margin: 0;
-    font-size: .925em;
+    font-size: .85em;
     font-family: 'Poppins', "Helvetica Neue", "Arial", sans-serif;
     line-height: 1.7;
     color: rgb(50,50,50);
@@ -97,7 +97,6 @@ p:empty {
     background-position: -50% -20%, right -50% bottom -20%;
     background-repeat: no-repeat;
     color: white;
-    font-size: clamp(32px, 4vw, 72px);
     font-weight: 900;
 }
 
@@ -112,6 +111,7 @@ p:empty {
     flex-basis: 100%;
     margin-top: 0;
     line-height: 1.4;
+    font-size: 2.25rem;
 }
 
 section[data-title="Copyright"] {
@@ -139,7 +139,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 .chapter-content .h2 {
     -webkit-break-after: avoid;
     break-after: avoid;
-    font-size: 1.55rem;
+    font-size: 1.35rem;
     color:#2b094a;
 }
 
@@ -153,7 +153,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 .chapter-content .h4 {
     -webkit-break-after: avoid;
     break-after: avoid;
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 .chapter-content .h2:first-child,
@@ -165,7 +165,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 .chapter-content blockquote {
     padding: 1em 2em;
     margin-inline: 0;
-    font-size: 1.15rem;
+    font-size: .885rem;
     background: rgb(245,240,245);
     -prince-pdf-tag-type: Quote;
 }
@@ -179,7 +179,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     display: block;
     padding: 1em;
     white-space: pre-wrap;
-    font-size: 1.05em;
+    font-size: 1em;
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-weight: 500;
     background: rgb(16,15,32);
@@ -219,7 +219,6 @@ figure {
 figure figcaption {
     padding: 1em;
     background: #D8E2F1;
-    font-weight: 500;
     position: relative;
     left: 50%;
     width: 5in;
@@ -311,90 +310,90 @@ img {
 }
 
 
-@media print {
-    h1 {
-        display: flex;
-        height: 100%;
-        margin: 0;
-        flex-direction: column;
-        justify-content: center;
-        break-after: always;
-        font-size: 4.75rem;
-        line-height: 1.25;
-        text-align: right;
-        color: #100F20;
-    }
 
-    h1 span::before {
-        content: '';
-        display: block;
-        margin: 0.5em 0 0.5em auto;
-        height: 6px;
-        width: 200px;
-        background: #100F20;
-    }
+h1 {
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding-right: 0.25em;
+    flex-direction: column;
+    justify-content: center;
+    break-after: always;
+    font-size: 3.75rem;
+    line-height: 1.25;
+    text-align: right;
+    color: #100F20;
+}
 
-    h1 span {
-        font-size: 3.1rem;
-        color: #83024F;
-    }
+h1 span::before {
+    content: '';
+    display: block;
+    margin: 0.5em 0 0.5em auto;
+    height: 6px;
+    width: 200px;
+    background: #100F20;
+}
 
-    h1 cite {
-        margin-top: 1em;
-        font-size: 1.25rem;
-    }
+h1 span {
+    font-size: 2.5rem;
+    color: #83024F;
+}
 
-    .full-screen-image {
-        border-radius: 0;
-        height: unset;
-        width: unset;
-    }
+h1 cite {
+    margin-top: 1em;
+    font-size: 1rem;
+}
 
-    .container {
-        max-width: none;
-        width: 100%;
-        padding: 0;
-    }
+.full-screen-image {
+    border-radius: 0;
+    height: unset;
+    width: unset;
+}
 
-    .chapter-header {
-        break-before: right;
-    }
-    
-    .other-types-like-copyright {
-        page: copyright;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: flex-end;
-    }
+.container {
+    max-width: none;
+    width: 100%;
+    padding: 0;
+}
 
-    section[data-title] > p,
-    section[data-title] > ul,
-    section[data-title] > ol,
-    section[data-title] > blockquote,
-    section[data-title] > pre,
-    section[data-title] > h3,
-    section[data-title] > h4,
-    section[data-title] > h5,
-    section[data-title] > h6,
-    section[data-title] > .text-center {
-        max-width: 18.5cm;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.chapter-header {
+    break-before: right;
+}
 
-    section[data-title="Copyright"] {
-        align-items: flex-end;
-    }
+.other-types-like-copyright {
+    page: copyright;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
+}
 
-    main blockquote {
-        padding: 1.5em;
-        font-size: 1.125rem;
-    }
+section[data-title] > p,
+section[data-title] > ul,
+section[data-title] > ol,
+section[data-title] > blockquote,
+section[data-title] > pre,
+section[data-title] > h3,
+section[data-title] > h4,
+section[data-title] > h5,
+section[data-title] > h6,
+section[data-title] > .text-center {
+    max-width: 18.5cm;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    main li li p {
-        margin: 1em 0;
-    }
+section[data-title="Copyright"] {
+    align-items: flex-end;
+}
+
+main blockquote {
+    padding: 1.5em;
+    font-size: 1.125rem;
+}
+
+main li li p {
+    margin: 1em 0;
 }
     
 @font-face {
@@ -451,10 +450,6 @@ img {
     background-position: 2cm 18cm, -16cm 0;
 }
 
-.print .chapter-title {
-    font-size: 2.90rem;
-}
-
 .print .full-screen-image {
     border-radius: 0;
     height: unset;
@@ -478,10 +473,10 @@ img {
 /* Remove for digital PDF export */
 
 @page:right {
-    margin-top: 10mm !important;
+    margin-top: 14mm !important;
     margin-bottom: 18mm !important;
     margin-left: 16mm !important;
-    margin-right: 10mm !important; 
+    margin-right: 13mm !important; 
 
     @bottom-right-corner {
         content: counter(page);
@@ -500,9 +495,9 @@ img {
 }
 
 @page:left {
-    margin-top: 10mm !important;
+    margin-top: 14mm !important;
     margin-bottom: 18mm !important;
-    margin-left: 10mm !important;
+    margin-left: 13mm !important;
     margin-right: 16mm !important;
 
     @bottom-left-corner {
@@ -570,7 +565,8 @@ img {
 .print blockquote,
 .print code,
 .print pre,
-.print figure {
+.print figure,
+.callout.callout {
     page-break-inside: avoid;
 }
 
@@ -614,12 +610,12 @@ img {
 }
 
 .print .chapter-content > ul > li p {
-    margin: 1.5em 0;
+    margin: 0.5em 0;
 }
 
 .print section[data-title] .printable-link {
     word-wrap: break-word;
-    font-size: .925rem;
+    font-size: .825rem;
     font-weight: 500;
     color: #306C98;
 }
