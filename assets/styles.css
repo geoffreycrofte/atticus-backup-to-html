@@ -329,12 +329,6 @@ section[data-title="Copyright"] p {
     margin: 1em 0;
 }
 
-section[id="cg65a3de48b3b82d0dc036ced2"] .chapter-counter,
-section[id="cg65a3de48b3b82d0dc036ced4"] .chapter-counter,
-section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
-    display: none;
-}
-
 main p {
     margin: 2em 0;
 }
@@ -351,6 +345,13 @@ main .h3 {
 
 main .h4 {
     font-size: 1.125rem;
+}
+
+main .h5 {
+    margin-bottom: -1em;
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.7;
 }
 
 main blockquote {

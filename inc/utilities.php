@@ -87,14 +87,14 @@
         
         if ( ! isset( $chapter_links[ $chapt_id ] ) ) {
             // Si non, initialiser comme un tableau vide
-            $chapter_links[ $chapt_id ] = array();
+            $chapter_links[ $chapt_id ] = [];
         } 
 
         // Set the heading counters to generate unique ids combined with $chapt_id
-        $h2 = isset( $h2 ) ? $h2 : 1;
-        $h3 = isset( $h3 ) ? $h3 : 1;
-        $h4 = isset( $h4 ) ? $h4 : 1;
-        $h5 = isset( $h5 ) ? $h5 : 1;
+        (int) $h2 ??= 1;
+        (int) $h3 ??= 1;
+        (int) $h4 ??= 1;
+        (int) $h5 ??= 1;
 
         foreach ( $children as $c ) {
 
@@ -113,7 +113,7 @@
                     break;
 
                 case 'p':
-                    $output .= '<p id="' . get_valid_id( get_child_id ( $c ) ) . '">' . more_children( $c['children'], $chapt_id ) . '</p>';
+                    $output .= '<p' . ( isset( $c['id'] ) ? ' id="' . get_valid_id( get_child_id ( $c ) ) . '"' : '') . '>' . more_children( $c['children'], $chapt_id ) . '</p>';
                     break;
 
                 case 'a':
@@ -139,23 +139,22 @@
 
                 case 'h2':
                     $output .= '<h3 class="h2" id="' . get_valid_id( $chapt_id . '_' . $h2 ) . '">' . maybe_remove_emoji( $c['children'][0]['text'] ) . '</h3>';
-                    $h2 = $h2 + 1;
+                    $h2++;
                     break;
 
                 case 'h3':
-                    //$output .= '<h4 class="h3">Les titres de niveau 3 buggouillent</h4>';
                     $output .= '<h4 class="h3" id="' . get_valid_id( $chapt_id . '_h3_' . $h3 ) . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h4>';
-                    $h3 = $h3 + 1;
+                    $h3++;
                     break;
                 
                 case 'h4':
                     $output .= '<h5 class="h4" id="' . get_valid_id( $chapt_id . '_h4_' . $h4 ) . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h5>';
-                    $h4 = $h4 + 1;
+                    $h4++;
                     break;
 
                 case 'h5':
                     $output .= '<h6 class="h5" id="' . get_valid_id( $chapt_id . '_h5_' . $h5 ) . '">' .  maybe_remove_emoji( $c['children'][0]['text'] ) . '</h6>';
-                    $h5 = $h5 + 1;
+                    $h5++;
                     break;
 
                 case 'blockquote':
