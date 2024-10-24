@@ -1,3 +1,62 @@
+:root  {
+    --bg-body: #ffffff;
+    --bg-sidebar: #323232;
+    --bg-chapters: #111111;
+    --bg-image-chapters: '';
+    --bg-image-position-chapters: '';
+
+    --color-main-text: #111111;
+    --color-main-links: #0176c4;
+
+    --book-page-title: 'GIVE IT A NAME';
+}
+
+body.theme-forms {
+    --bg-body: #ffffff;
+    --bg-chapters: #100F20;
+    --bg-image-chapters: url(assets/img/losange.png), url(assets/img/losange-2.png);
+    --bg-image-position-chapters: 2cm 18cm,-16cm 0;
+    --bg-image-size-chapters: unset;
+    --bg-main-blockquote: #f5f0f5;
+    --bg-codeblock: #100f20;
+    --bg-figcaption: #D8E2F1;
+
+    --color-main-text: #323232;
+    --color-main-links: #A40162;
+    --color-main-h2: #2b094a;
+    --color-main-h3: #306C98;
+    --color-codeblock: #9DB9E2;
+    --color-inline-code: #306C98;
+    --color-printable-link: #306C98;
+
+    --border-codeblock: 6px solid #A40162;
+    
+    --book-page-title: 'Web Forms';
+}
+
+body.theme-accessibility {
+    --bg-body: #ffffff;
+    --bg-chapters: #001528;
+    --bg-image-chapters: url(assets/img/hexa-mix.png);
+    --bg-image-position-chapters: 3cm -2cm;
+    --bg-image-size-chapters: 106% auto;
+    --bg-main-blockquote: #d6edf0;
+    --bg-codeblock: #001528;
+    --bg-figcaption: #D8E2F1;
+
+    --color-main-text: #002231;
+    --color-main-links: #0C604C;
+    --color-main-h2: #003A41;
+    --color-main-h3: #1B6A8B;
+    --color-codeblock: #aee0e7;
+    --color-inline-code: #1B6A8B;
+    --color-printable-link: #1B6A8B;
+
+    --border-codeblock: 6px solid #51B0A2;
+
+    --book-page-title: 'What Designers Need to Know About Accessibility';
+}
+
 * {
     box-sizing: border-box;
 }
@@ -12,7 +71,7 @@ body {
 }
 
 a {
-    color: #A40162;
+    color: var(--color-main-links);
 }
 
 ol.toc {
@@ -34,6 +93,12 @@ ol.toc li a::after {
     margin-inline-start: auto;
     content: target-counter(attr(href url), page, decimal);
 }
+
+/*section p > a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    color: var(--color-printable-link);
+    text-decoration: none;
+}*/
 
 section a[href^="#"]::after {
     content: ", page " target-counter(attr(href url), page, decimal) ",";
@@ -87,15 +152,16 @@ p:empty {
 .chapter-header {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 2em;
+    padding: 0 .9in 0 0.925in;
     margin: -6mm;
     align-content: center;
     text-align: right;
     height: var(--pagedjs-height, 100vh);
-    background-color: #100F20;
-    background-image: url(img/losange.png), url(img/losange-2.png);
-    background-position: -50% -20%, right -50% bottom -20%;
+    background-color: var(--bg-chapters);
+    background-image: var(--bg-image-chapters);
+    background-position: var(--bg-image-position-chapters);
     background-repeat: no-repeat;
+    background-size: var(--bg-image-size-chapters);
     color: white;
     font-weight: 900;
 }
@@ -140,14 +206,14 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     -webkit-break-after: avoid;
     break-after: avoid;
     font-size: 1.35rem;
-    color:#2b094a;
+    color: var(--color-main-h2);
 }
 
 .chapter-content .h3 {
     -webkit-break-after: avoid;
     break-after: avoid;
     font-size: 1.15rem;
-    color:#306C98
+    color:var(--color-main-h3)
 }
 
 .chapter-content .h4 {
@@ -163,11 +229,23 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 }
 
 .chapter-content blockquote {
+    position: relative;
     padding: 1em 2em;
     margin-inline: 0;
     font-size: .885rem;
-    background: rgb(245,240,245);
+    background: var(--bg-main-blockquote);
     -prince-pdf-tag-type: Quote;
+}
+
+.chapter-content blockquote::before {
+    content: '“';
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 2cm;
+    font-family: georgia;
+    line-height: 0.2;
+    color: var(--color-main-links);
 }
 
 .chapter-content blockquote cite {
@@ -182,9 +260,9 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     font-size: 1em;
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-weight: 500;
-    background: rgb(16,15,32);
-    color: rgb(157,185,226);
-    border-left: 6px solid rgb(147,12,122);
+    color: var(--color-codeblock);
+    background: var(--bg-codeblock);
+    border-left: var(--border-codeblock);
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%);
     -prince-pdf-tag-type: Code;
 }
@@ -208,7 +286,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 
 p > code {
     font-size: 0.95rem;
-    color: #306C98;
+    color: var(--color-inline-code);
 }
 
 figure {
@@ -218,7 +296,7 @@ figure {
 
 figure figcaption {
     padding: 1em;
-    background: #D8E2F1;
+    background: var(--bg-figcaption);
     position: relative;
     left: 50%;
     width: 5in;
@@ -247,17 +325,20 @@ figure figcaption:empty{
 [data-size="98"]{
     max-width: 100%;
 }
+[data-size="95"]{
+    max-width: 95%;
+}
 [data-size="81"] {
     max-width: 80%;
 }
 [data-size="80"] {
     max-width: 80%;
 }
-[data-size="small"]{
-    max-width: 50%;
-}
 [data-size="79"]{
     max-width: 80%;
+}
+[data-size="75"]{
+    max-width: 75%;
 }
 [data-size="71"]{
     max-width: 70%;
@@ -267,6 +348,9 @@ figure figcaption:empty{
 }
 [data-size="69"]{
     max-width: 70%;
+}
+[data-size="65"]{
+    max-width: 65%;
 }
 [data-size="62"]{
     max-width: 60%;
@@ -283,8 +367,23 @@ figure figcaption:empty{
 [data-size="58"]{
     max-width: 60%;
 }
+[data-size="55"]{
+    max-width: 55%;
+}
+[data-size="small"]{
+    max-width: 50%;
+}
+[data-size="50"]{
+    max-width: 50%;
+}
 [data-size="49"]{
     max-width: 49%;
+}
+[data-size="medium"]{
+    max-width: 45%;
+}
+[data-size="45"]{
+    max-width: 45%;
 }
 [data-size="41"]{
     max-width: 40%;
@@ -294,6 +393,27 @@ figure figcaption:empty{
 }
 [data-size="39"]{
     max-width: 40%;
+}
+[data-size="35"]{
+    max-width: 35%;
+}
+[data-size="30"]{
+    max-width: 30%;
+}
+[data-size="25"]{
+    max-width: 25%;
+}
+[data-size="20"]{
+    max-width: 20%;
+}
+[data-size="15"]{
+    max-width: 15%;
+}
+[data-size="10"]{
+    max-width: 10%;
+}
+[data-size="5"]{
+    max-width: 5%;
 }
 
 /**
@@ -445,11 +565,6 @@ main li li p {
     line-height: 1.7;
 }
 
-.print .chapter-header {
-    padding: 0 .9in 0 0.925in;
-    background-position: 2cm 18cm, -16cm 0;
-}
-
 .print .full-screen-image {
     border-radius: 0;
     height: unset;
@@ -461,7 +576,6 @@ main li li p {
     bleed: 6mm;
     size: 6in 9in;
 }
-
 
 /* For A5 
 @page {
@@ -509,7 +623,7 @@ main li li p {
     }
 
     @bottom-center {
-        content: 'Web Forms';
+        content: var(--book-page-title);
         font-size: 0.75rem;
         font-weight: bold;
         color:#727083;
@@ -574,6 +688,13 @@ main li li p {
     widows: 3;
 }
 
+.print li,
+.print li p {
+    widows: 2;
+    -webkit-break-after: avoid;
+    break-after: avoid;
+}
+
 .print .toc {
     font-size: 0.8rem;
 }
@@ -609,30 +730,15 @@ main li li p {
     break-before: page;
 }
 
-.print .chapter-content > ul > li p {
+.chapter-content > ul > li p {
     margin: 0.5em 0;
 }
 
-.print section[data-title] .printable-link {
+section[data-title] .printable-link {
     word-wrap: break-word;
     font-size: .825rem;
     font-weight: 500;
-    color: #306C98;
-}
-
-.print section[data-title] > p,
-.print section[data-title] > ul,
-.print section[data-title] > ol,
-.print section[data-title] > blockquote,
-.print section[data-title] > pre,
-.print section[data-title] > h3,
-.print section[data-title] > h4,
-.print section[data-title] > h5,
-.print section[data-title] > h6,
-.print section[data-title] > .text-center {
-    max-width: 18.5cm;
-    margin-left: auto;
-    margin-right: auto;
+    color: var(--color-printable-link);
 }
 
 .print section[data-title="Copyright"] {

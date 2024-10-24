@@ -317,9 +317,9 @@
             $isInternal = preg_match( '#\#chapter#', $c['url'] );
             $output .= $isInternal === 0 ? 
                 '<u>' .  $c['children'][0]['text'] . '</u> <span class="printable-link">(' . get_printable_url( $c['url'] ) . ')</span> ' :
-                '<a class="intlink" href="#cg' . explode( '#chapter=', $c['url'] )[1] . '">' . $c['children'][0]['text'] . '</a>';
+                '<a class="intlink" href="#'. get_valid_id( explode( '#chapter=', $c['url'] )[1] ) . '">' . $c['children'][0]['text'] . '</a>';
         } else {
-            $output .= '<a href="' . $c['url'] . '" id="' . get_valid_id( get_child_id ( $c ) ) . '">' .  $c['children'][0]['text'] . '</a>';
+            $output .= '<a class="extlink" href="' . $c['url'] . '" id="' . get_valid_id( get_child_id ( $c ) ) . '">' .  $c['children'][0]['text'] . '</a>';
         }
 
         return  $output;

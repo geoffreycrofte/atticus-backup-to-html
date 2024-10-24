@@ -5,6 +5,10 @@
     $by = get_book_info('lang') === 'fr' ? 'par' : 'by';
     $toc = get_book_info('lang') === 'fr' ? 'Sommaire' : 'Table of Content';
     $chaptername = get_book_info('lang') === 'fr' ? 'Chapitre' : 'Chapter';
+
+    // Personal themes to be used with my own books
+    $themes = array('forms', 'forms', 'accessibility', 'accessibility');
+
 ?><!DOCTYPE html>
 <html lang="<?php echo get_book_info('lang'); ?>" class="print">
 <head>
@@ -23,7 +27,7 @@
     <script src="assets/paged.polyfill.js"></script>
 
 </head>
-<body class="<?php echo count( $data ) > 1 ? 'books' : 'book'; ?>">
+<body class="<?php echo count( $data ) > 1 ? 'books' : 'book'; ?> theme-<?php echo isset( $_GET['book'] ) ? $themes[$_GET['book']] : ''; ?> print">
     <?php
         $pages = get_book_info('genericPages');
         foreach ( $pages as $page ) {
@@ -72,8 +76,6 @@
         $chaptNumber = 1;
 
         foreach ( $chapters as $chapter ) {
-            // For some reasons, an unset numbered array key can mean the chapter is numbered... Thank you Atticus :/
-            if ( is_numbered_chapter( $chapter ) ) $chptNb++;
     ?>
         <section data-title="<?php eesc_attr( $chapter['title'] ); ?>">
             
