@@ -710,7 +710,7 @@ img {
 }
 
 @page {
-    size: A5;
+    size: A4;
     /* size: 6in 9in; */ 
 
     @top-center {

@@ -67,7 +67,7 @@ body {
     font-size: .85em;
     font-family: 'Poppins', "Helvetica Neue", "Arial", sans-serif;
     line-height: 1.7;
-    color: rgb(50,50,50);
+    color: var(--text-color);
 }
 
 a {
@@ -200,6 +200,39 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 
 .chapter-content p {
     margin: 2em 0;
+}
+
+h1 {
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding-right: 0.25em;
+    flex-direction: column;
+    justify-content: center;
+    break-after: always;
+    font-size: 3.75rem;
+    line-height: 1.25;
+    text-align: right;
+    color: var(--h1-color);
+}
+
+h1 span::before {
+    content: '';
+    display: block;
+    margin: 0.5em 0 0.5em auto;
+    height: 6px;
+    width: 200px;
+    background: var(--h1-color);
+}
+
+h1 span {
+    font-size: 2.5rem;
+    color: var(--h1-color-2);
+}
+
+h1 cite {
+    margin-top: 1em;
+    font-size: 1rem;
 }
 
 .chapter-content .h2 {
@@ -427,41 +460,6 @@ footer {
 img {
     max-width: 100%;
     height: auto;
-}
-
-
-
-h1 {
-    display: flex;
-    height: 100%;
-    margin: 0;
-    padding-right: 0.25em;
-    flex-direction: column;
-    justify-content: center;
-    break-after: always;
-    font-size: 3.75rem;
-    line-height: 1.25;
-    text-align: right;
-    color: #100F20;
-}
-
-h1 span::before {
-    content: '';
-    display: block;
-    margin: 0.5em 0 0.5em auto;
-    height: 6px;
-    width: 200px;
-    background: #100F20;
-}
-
-h1 span {
-    font-size: 2.5rem;
-    color: #83024F;
-}
-
-h1 cite {
-    margin-top: 1em;
-    font-size: 1rem;
 }
 
 .full-screen-image {
@@ -704,7 +702,7 @@ main li li p {
     justify-content: flex-start;
     gap: 0.5em;
     text-decoration: none;
-    color:#100F20;
+    color: var(--a-color);
 }
 
 .print h1 {
@@ -739,6 +737,21 @@ section[data-title] .printable-link {
     font-size: .825rem;
     font-weight: 500;
     color: var(--color-printable-link);
+}
+
+.print section[data-title] > p,
+.print section[data-title] > ul,
+.print section[data-title] > ol,
+.print section[data-title] > blockquote,
+.print section[data-title] > pre,
+.print section[data-title] > h3,
+.print section[data-title] > h4,
+.print section[data-title] > h5,
+.print section[data-title] > h6,
+.print section[data-title] > .text-center {
+    max-width: 18.5cm;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .print section[data-title="Copyright"] {
