@@ -3,16 +3,37 @@
 }
 
 body {
+    --text-color: rgb(50,50,50);
+    --link-color: #A40162;
+    --h1-color: #100F20;
+    --h1-color-2: #83024F;
+    --h2-color: #2b094a;
+    --h3-color: #306C98;
+    --a-color: #100F20;
+    --printable-link-color: #306C98;
+    --chapter-bg-color: #100F20;
+    --chapter-bg-image: url(img/losange.png), url(img/losange-2.png);
+    --chapter-bg-position: -50% -20%, right -50% bottom -20%;
+    --chapter-text-color: #FFF;
+    --blockquote-bg-color: rgb(245,240,245);
+
+    --block-code-bg-color: rgb(16,15,32);
+    --block-code-color: rgb(157,185,226);
+    --block-code-border-color: 6px solid rgb(147,12,122);
+    --inline-code-color: #306C98;
+
+    --figcaption-bg-color: #D8E2F1;
+
     padding: 0;
     margin: 0;
     font-size: .85em;
     font-family: 'Poppins', "Helvetica Neue", "Arial", sans-serif;
     line-height: 1.7;
-    color: rgb(50,50,50);
+    color: var(--text-color);
 }
 
 a {
-    color: #A40162;
+    color: var(--link-color);
 }
 
 ol.toc {
@@ -92,11 +113,11 @@ p:empty {
     align-content: center;
     text-align: right;
     height: var(--pagedjs-height, 100vh);
-    background-color: #100F20;
-    background-image: url(img/losange.png), url(img/losange-2.png);
-    background-position: -50% -20%, right -50% bottom -20%;
+    background-color: var(--chapter-bg-color);
+    background-image: var(--chapter-bg-image);
+    background-position: var(--chapter-bg-position);
     background-repeat: no-repeat;
-    color: white;
+    color: var(--chapter-text-color);
     font-weight: 900;
 }
 
@@ -136,18 +157,51 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     margin: 2em 0;
 }
 
+h1 {
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding-right: 0.25em;
+    flex-direction: column;
+    justify-content: center;
+    break-after: always;
+    font-size: 3.75rem;
+    line-height: 1.25;
+    text-align: right;
+    color: var(--h1-color);
+}
+
+h1 span::before {
+    content: '';
+    display: block;
+    margin: 0.5em 0 0.5em auto;
+    height: 6px;
+    width: 200px;
+    background: var(--h1-color);
+}
+
+h1 span {
+    font-size: 2.5rem;
+    color: var(--h1-color-2);
+}
+
+h1 cite {
+    margin-top: 1em;
+    font-size: 1rem;
+}
+
 .chapter-content .h2 {
     -webkit-break-after: avoid;
     break-after: avoid;
     font-size: 1.35rem;
-    color:#2b094a;
+    color:var(--h2-color);
 }
 
 .chapter-content .h3 {
     -webkit-break-after: avoid;
     break-after: avoid;
     font-size: 1.15rem;
-    color:#306C98
+    color: var(--h3-color);
 }
 
 .chapter-content .h4 {
@@ -166,7 +220,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     padding: 1em 2em;
     margin-inline: 0;
     font-size: .885rem;
-    background: rgb(245,240,245);
+    background: var(--blockquote-bg-color);
     -prince-pdf-tag-type: Quote;
 }
 
@@ -182,9 +236,9 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
     font-size: 1em;
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-weight: 500;
-    background: rgb(16,15,32);
-    color: rgb(157,185,226);
-    border-left: 6px solid rgb(147,12,122);
+    background: var(--block-code-bg-color);
+    color: var(--block-code-color);
+    border-left: 6px solid var(--block-code-border-color);
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%);
     -prince-pdf-tag-type: Code;
 }
@@ -208,7 +262,7 @@ section[id="cg65a3de48b3b82d0dc036cecf"] .chapter-counter {
 
 p > code {
     font-size: 0.95rem;
-    color: #306C98;
+    color: var(--inline-code-color);
 }
 
 figure {
@@ -218,7 +272,7 @@ figure {
 
 figure figcaption {
     padding: 1em;
-    background: #D8E2F1;
+    background: var(--figcaption-bg-color);
     position: relative;
     left: 50%;
     width: 5in;
@@ -307,41 +361,6 @@ footer {
 img {
     max-width: 100%;
     height: auto;
-}
-
-
-
-h1 {
-    display: flex;
-    height: 100%;
-    margin: 0;
-    padding-right: 0.25em;
-    flex-direction: column;
-    justify-content: center;
-    break-after: always;
-    font-size: 3.75rem;
-    line-height: 1.25;
-    text-align: right;
-    color: #100F20;
-}
-
-h1 span::before {
-    content: '';
-    display: block;
-    margin: 0.5em 0 0.5em auto;
-    height: 6px;
-    width: 200px;
-    background: #100F20;
-}
-
-h1 span {
-    font-size: 2.5rem;
-    color: #83024F;
-}
-
-h1 cite {
-    margin-top: 1em;
-    font-size: 1rem;
 }
 
 .full-screen-image {
@@ -583,7 +602,7 @@ main li li p {
     justify-content: flex-start;
     gap: 0.5em;
     text-decoration: none;
-    color:#100F20;
+    color: var(--a-color);
 }
 
 .print h1 {
@@ -617,7 +636,7 @@ main li li p {
     word-wrap: break-word;
     font-size: .825rem;
     font-weight: 500;
-    color: #306C98;
+    color: var(--printable-link-color);
 }
 
 .print section[data-title] > p,
