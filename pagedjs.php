@@ -7,7 +7,7 @@
     $chaptername = get_book_info('lang') === 'fr' ? 'Chapitre' : 'Chapter';
 
     // Personal themes to be used with my own books
-    $themes = array('forms', 'forms', 'accessibility', 'accessibility');
+    $themes = array('forms', 'accessibility', 'forms', 'accessibility');
 
 ?><!DOCTYPE html>
 <html lang="<?php echo get_book_info('lang'); ?>" class="print">

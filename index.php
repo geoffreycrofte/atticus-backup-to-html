@@ -7,7 +7,7 @@
     $chaptername = get_book_info('lang') === 'fr' ? 'Chapitre' : 'Chapter';
 
     // Personal themes to be used with my own books
-    $themes = array('forms', 'forms', 'accessibility', 'accessibility');
+    $themes = array('forms', 'accessibility', 'forms', 'accessibility');
 
 ?><!DOCTYPE html>
 <html lang="<?php echo get_book_info('lang'); ?>"<?php echo isset( $_GET['print'] ) ? ' class="print"' : ''; ?>>
@@ -113,8 +113,14 @@
             <div class="chapter-content">
 
             <?php
-                $options = $page['toc']['options'][0];
-                echo get_table_of_content( $options['showSubheading'], $options['showSubtitle'] );
+                $options = isset( $page['toc']['options'][0] ) ? $page['toc']['options'][0] : [];
+                if ( empty( $options ) ) {
+                    echo '<strong style="color: red">GO SET THE OPTIONS FOR Show Subheading and Show Subtitle!</strong>';
+                }
+                echo get_table_of_content( 
+                    isset( $options['showSubheading'] ) ? $options['showSubheading'] : false, 
+                    isset( $options['showSubtitle'] ) ? $options['showSubtitle'] : false
+                );
             ?>
 
             </div>

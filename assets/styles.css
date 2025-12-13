@@ -42,7 +42,7 @@ body.theme-accessibility {
     --bg-image-chapters: url(img/hexa-mix.png);
     --bg-image-position-chapters: -250px -230px;
     --bg-image-size-chapters: contain;
-    --bg-main-blockquote: rgb(245,240,245);
+    --bg-main-blockquote: rgb(232, 243, 246);
     --bg-codeblock: #001528;
     --bg-figcaption: #D8E2F1;
 

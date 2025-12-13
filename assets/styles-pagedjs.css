@@ -40,7 +40,7 @@ body.theme-accessibility {
     --bg-image-chapters: url(assets/img/hexa-mix.png);
     --bg-image-position-chapters: 3cm -2cm;
     --bg-image-size-chapters: 106% auto;
-    --bg-main-blockquote: #d6edf0;
+    --bg-main-blockquote: rgb(232, 243, 246);
     --bg-codeblock: #001528;
     --bg-figcaption: #D8E2F1;
 
@@ -54,7 +54,7 @@ body.theme-accessibility {
 
     --border-codeblock: 6px solid #51B0A2;
 
-    --book-page-title: 'What Designers Need to Know About Accessibility';
+    --book-page-title: 'Ce que les designers doivent savoir sur l’accessibilité';
 }
 
 * {
@@ -570,20 +570,18 @@ main li li p {
 }
 
 /* For 6in 9in */
-@page {
+/*@page {
     bleed: 6mm;
     size: 6in 9in;
-}
+}*/
 
-/* For A5 
+/* For A4 */
 @page {
     bleed: 6mm;
     size: A5;
 }
-*/
 
 /* Remove for digital PDF export */
-
 @page:right {
     margin-top: 14mm !important;
     margin-bottom: 18mm !important;
@@ -627,7 +625,7 @@ main li li p {
         color:#727083;
     }
 }
-
+/* end of remove */
 
 @page:nth(1) {
     @bottom-right-corner {
@@ -641,7 +639,6 @@ main li li p {
         content: ''; 
     }
 }
-
 
 .pagedjs_page[data-break-before="page"] [class*="pagedjs_margin-"],
 .pagedjs_page[data-break-before="page"] .pagedjs_margin,

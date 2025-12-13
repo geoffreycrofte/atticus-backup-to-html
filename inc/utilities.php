@@ -32,7 +32,7 @@
                 break;
 
             case 'publisherLogoURL':
-                return '<img src="' . $book['publisherLogoURL'] . '" class="publisher-logo"' . add_html_attrs( $attrs ) . '>';
+                return isset( $book['publisherLogoURL'] ) ? '<img src="' . $book['publisherLogoURL'] . '" class="publisher-logo"' . add_html_attrs( $attrs ) . '>' : '';
                 break;
 
             case 'publisherName':
@@ -122,7 +122,7 @@
                     break;
 
                 case 'image':
-                    $output .= '<figure data-size="' . $c['size'] . '"  data-flow="' . $c['flow'] . '"><img src="' . maybe_base64url( $c['url'] ) . '">' . ( isset( $c['caption'] ) ? '<figcaption>' . $c['caption'] . '</figcaption>' : '' ) . '</figure>';
+                    $output .= '<figure data-size="' . $c['size'] . '"  data-flow="' . $c['flow'] . '"><img src="' . maybe_base64url( $c['url'] ) . '"' . ( isset( $c['alternativeText'] ) ? ' alt="' . strip_tags( $c['alternativeText'] ) . '"' : '' ) . '>' . ( isset( $c['caption'] ) ? '<figcaption>' . $c['caption'] . '</figcaption>' : '' ) . '</figure>';
                     break;
 
                 case 'ul':
