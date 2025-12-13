@@ -278,7 +278,6 @@
                 'headings' => $headings,
                 'number'   => is_numbered_chapter( $chapter ) ? $chaptNb : 'none'
             );
-            
         }
         return $chapts;
     }
